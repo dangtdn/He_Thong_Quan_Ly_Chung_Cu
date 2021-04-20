@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Modal() {
+export default function Modal(props) {
     return (
         <div div className = "modal fade" id = "myModal" >
             <div className="modal-dialog">

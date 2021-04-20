@@ -1,0 +1,22 @@
+[
+    {
+        "maDV": "1",
+        "tenDV": "internet",
+        "giaDV": "100"
+    },
+    {
+        "maDV": "2",
+        "tenDV": "Dọn vệ sinh",
+        "giaDV": "50"
+    },
+    {
+        "maDV": "3",
+        "tenDV": "spa",
+        "giaDV": "100"
+    },
+    {
+        "maDV": "4",
+        "tenDV": "gym",
+        "giaDV": "120"
+    }
+]

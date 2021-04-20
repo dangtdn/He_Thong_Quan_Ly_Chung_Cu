@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react'
+import { NavLink } from 'react-router-dom'
 
 export default function SideBar() {
+
     return (
         <Fragment>
             <nav id="sidebar">
@@ -9,11 +11,11 @@ export default function SideBar() {
                     <strong>AM</strong>
                 </div>
                 <ul className="list-unstyled components">
-                    <li className="active">
-                        <a href="#">
+                    <li>
+                        <NavLink to="/">
                             <i className="fas fa-home" />
           Home
-        </a>
+        </NavLink>
                     </li>
                     <li>
                         <a href="#profileSubmenu" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle">
@@ -22,7 +24,7 @@ export default function SideBar() {
         </a>
                         <ul className="collapse list-unstyled" id="profileSubmenu">
                             <li>
-                                <a href="#">Thông tin</a>
+                                <NavLink to="/">Thông tin</NavLink>
                             </li>
                         </ul>
                     </li>
@@ -33,16 +35,19 @@ export default function SideBar() {
         </a>
                         <ul className="collapse list-unstyled" id="manageSubmenu">
                             <li>
-                                <a href="#">Quản lý căn hộ</a>
+                                <NavLink to="/canho">Căn hộ</NavLink>
                             </li>
                             <li>
-                                <a href="#">Quản lý dân cư</a>
+                                <NavLink to="/dancu">Dân cư</NavLink>
                             </li>
                             <li>
-                                <a href="#">Quản lý tài sản</a>
+                                <NavLink to="/taisan">Tài sản</NavLink>
                             </li>
                             <li>
-                                <a href="#">Quản lý công nợ</a>
+                                <NavLink to="/dichvu">Dịch vụ</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/bienlai">Biên lai</NavLink>
                             </li>
                         </ul>
                     </li>
@@ -53,13 +58,13 @@ export default function SideBar() {
         </a>
                         <ul className="collapse list-unstyled" id="settingSubmenu">
                             <li>
-                                <a href="#">Đăng ký tài khoản</a>
+                                <NavLink to="/">Đăng ký tài khoản</NavLink>
                             </li>
                             <li>
-                                <a href="#">Đổi mật khẩu</a>
+                                <NavLink to="/">Đổi mật khẩu</NavLink>
                             </li>
                             <li>
-                                <a href="#">Đăng xuất</a>
+                                <NavLink to="/">Đăng xuất</NavLink>
                             </li>
                         </ul>
                     </li>

@@ -398,6 +398,10 @@ a.article, a.article:hover {
 
 }
 
+.box-table {
+    max-height: 500px;
+    overflow-y: auto;
+}
 
 .myCardHeader, .myCardFooter{
     background-color: transparent;       

@@ -1,0 +1,22 @@
+[
+    {
+        "tenTS": "TS001",
+        "giaTS": "1000",
+        "tinhTrang": "tốt"
+    },
+    {
+        "tenTS": "TS002",
+        "giaTS": "1000",
+        "tinhTrang": "hư hỏng"
+    },
+    {
+        "tenTS": "TS003",
+        "giaTS": "1000",
+        "tinhTrang": "mất"
+    },
+    {
+        "tenTS": "TS004",
+        "giaTS": "1000",
+        "tinhTrang": "tốt"
+    }
+]

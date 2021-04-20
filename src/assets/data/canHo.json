@@ -1,0 +1,26 @@
+[
+    {
+        "maCH": 1,
+        "tenCH": "PH001",
+        "gia": "1000000",
+        "tinhTrang": "trống"
+    },
+    {
+        "maCH": 2,
+        "tenCH": "PH002",
+        "gia": "1000000",
+        "tinhTrang": "đã bán"
+    },
+    {
+        "maCH": 3,
+        "tenCH": "PH003",
+        "gia": "1000000",
+        "tinhTrang": "cho thuê"
+    },
+    {
+        "maCH": 4,
+        "tenCH": "PH004",
+        "gia": "1000000",
+        "tinhTrang": "trống"
+    }
+]

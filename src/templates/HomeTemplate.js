@@ -11,7 +11,6 @@ export const HomeTemplate = (props) => {
         return <div className="wrapper">
             <SideBar/>
             <Component {...propsRoute}/>
-            <Modal/>
         </div>
     }}/>
 }

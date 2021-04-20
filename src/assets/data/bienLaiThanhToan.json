@@ -1,0 +1,18 @@
+[
+    {
+        "maBL": "1",
+        "soTienThanhToan": 900,
+        "maCH": 3,
+        "thoiGianLap": "30/10/2020",
+        "tinhTrang": "chưa thanh toán",
+        "nguoiLap": "admin"
+    },
+    {
+        "maBL": "2",
+        "soTienThanhToan": 400,
+        "maCH": 3,
+        "thoiGianLap": "30/11/2020",
+        "tinhTrang": "hoàn tất",
+        "nguoiLap": "admin"
+    }
+]
