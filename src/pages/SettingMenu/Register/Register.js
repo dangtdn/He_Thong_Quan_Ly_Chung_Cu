@@ -28,8 +28,12 @@ export default function Register() {
         console.log(newValues);
     }
 
-    const registerUser = () => {
+    const registerUser = (event) => {
+        event.preventDefault();
+
         const userTK = {...dataRegister.values};
+        console.log(userTK);
+
         dispatch(DangKyAction(userTK))
     }
 
@@ -41,7 +45,7 @@ export default function Register() {
             <div className="container">
                 <div className="box-profile px-3 px-md-5 py-4 shadow">
                     <h3 className="text-center my-3">ĐĂNG KÝ TÀI KHOẢN</h3>
-                    <form className="w-100 p-0 m-0 shadow-none" style={{background:"none"}}>
+                    <form onSubmit={registerUser} className="w-100 p-0 m-0 shadow-none" style={{background:"none"}}>
                         <div className="form-group row px-3 px-lg-5">
                             <label className="col-lg-2 col-form-label" htmlFor="inputName">
                                 Username:
@@ -86,7 +90,7 @@ export default function Register() {
                             </div>
                         </div>
                         <div className="btn-update d-flex justify-content-center">
-                            <button onClick={registerUser} className="btn btn-primary px-4">Tạo</button>
+                            <button className="btn btn-primary px-4">Tạo</button>
                         </div>
                     </form>
                 </div>

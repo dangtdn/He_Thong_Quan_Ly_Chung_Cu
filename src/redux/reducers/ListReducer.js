@@ -38,6 +38,7 @@ export const ListReducer = (state = stateDefault,action) => {
             let mangCH_Update = [...state.mangCH];
 
             let index = mangCH_Update.findIndex(item => item.maCH === action.canHo.maCH);
+            console.log(action.canHo.maCH, index);
             mangCH_Update[index] = {...action.canHo};
             
             return {...state,mangCH:mangCH_Update};

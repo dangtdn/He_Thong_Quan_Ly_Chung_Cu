@@ -19,6 +19,8 @@ export default function ManageDC() {
             maCH: "",
         }
     })
+    let arrInput = document.querySelectorAll('form input, form select');
+
 
     const {mangDC} = useSelector(state => state.ListReducer)
 
@@ -72,10 +74,11 @@ export default function ManageDC() {
             document.querySelector('#btnThemDC').classList.remove('hidden');
         }
         document.querySelector('#maDC').disabled = false;
-        
-        document.querySelectorAll('.modal-body input').forEach(item => {
-            item.value = "";
-        })
+
+    }
+
+    const closeModal = () => {
+        resetFunc();
     }
 
     const editDC = (maDC) => {
@@ -88,22 +91,33 @@ export default function ManageDC() {
         }
         document.querySelector('#maDC').disabled = true;
 
-        let index = mangDC.findIndex(item => item.maDC === maDC);
+        let editDC = mangDC.find(item => item.maDC === maDC);
 
-        document.querySelector('#maDC').value = mangDC[index].maDC;
-        document.querySelector('#hotenlot').value = mangDC[index].hotenlot;
-        document.querySelector('#ten').value = mangDC[index].ten;
-        document.querySelector('#ngaySinh').value = mangDC[index].ngaySinh;
-        document.querySelector('#gioiTinh').value = mangDC[index].gioiTinh;
-        document.querySelector('#cmnd').value = mangDC[index].cmnd;
-        document.querySelector('#sdt').value = mangDC[index].sdt;
-        document.querySelector('#ngayChuyenVao').value = mangDC[index].ngayChuyenVao;
-        document.querySelector('#maCH').value = mangDC[index].maCH;
+        arrInput.forEach((item) => {
+            const {id} = item;
+            if(id === "tinhTrangDC"){
+                document.getElementById(id).selectedIndex = 0;
+            }else{
+                document.getElementById(id).value = editDC[id];
+            }
+        })
 
     }
 
     const handleUpdateDC = () => {
         dispatch(editDCAction(data.values))
+    }
+
+    // Hàm reset
+    const resetFunc = () => {
+        arrInput.forEach((item,index) => {
+            const {id,value} = item;
+            if(id === 'tinhTrangDC'){
+                document.getElementById(id).selectedIndex = 0;
+            }else{
+                document.getElementById(id).value = '';
+            }
+        });
     }
 
     const deleteDC = (maDC) => {
@@ -114,9 +128,7 @@ export default function ManageDC() {
         const danCu = data.values;
         dispatch(addDCAction(danCu));
 
-        document.querySelectorAll(".modal-body input[type='text']").forEach(item => {
-            item.value = "";
-        })
+        resetFunc();
     }
 
     return (
@@ -290,7 +302,7 @@ export default function ManageDC() {
                     <div className="modal-footer" id="modal-footer">
                         <button id="btnThemDC" type="button" className="btn btn-success" onClick={handleAddDC}>Thêm</button>
                         <button id="btnCapNhat" type="button" className="btn btn-success" onClick={handleUpdateDC}>Cập nhật</button>
-                        <button id="btnDong" type="button" className="btn btn-danger" data-dismiss="modal">Đóng</button>
+                        <button id="btnDong" type="button" className="btn btn-danger" onClick={closeModal}  data-dismiss="modal">Đóng</button>
                     </div>
                 </div>
             </div>

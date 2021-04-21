@@ -16,6 +16,8 @@ export default function ManageBL() {
             nguoiLap: "",
         }
     })
+    let arrInput = document.querySelectorAll('form input, form select');
+
 
     const {mangBL} = useSelector(state => state.ListReducer)
 
@@ -66,11 +68,11 @@ export default function ManageBL() {
             document.querySelector('#btnThemBL').classList.remove('hidden');
         }
         document.querySelector('#maBL').disabled = false;
-        
-        document.querySelectorAll('.modal-body input').forEach(item => {
-            item.value = "";
-        })
-        document.querySelector('.modal-body select').selectedIndex = 0;
+    
+    }
+
+    const closeModal = () => {
+        resetFunc();
     }
 
     const editBL = (maBL) => {
@@ -83,20 +85,32 @@ export default function ManageBL() {
         }
         document.querySelector('#maBL').disabled = true;
 
-        let index = mangBL.findIndex(item => item.maBL === maBL);
+        let editBL = mangBL.find(item => item.maBL === maBL);
 
-        document.querySelector('#maBL').value = mangBL[index].maBL;
-        document.querySelector('#soTienThanhToan').value = mangBL[index].soTienThanhToan;
-        document.querySelector('#maCH').value = mangBL[index].maCH;
-        document.querySelector('#thoiGianLap').value = mangBL[index].thoiGianLap;
-        document.querySelector('#nguoiLap').value = mangBL[index].nguoiLap;
-
-        document.querySelector('.modal-body select').selectedIndex  = 0;
-
+        arrInput.forEach((item) => {
+            const {id} = item;
+            if(id === "tinhTrangBL"){
+                document.getElementById(id).selectedIndex = 0;
+            }else{
+                document.getElementById(id).value = editBL[id];
+            }
+        })
     }
 
     const handleUpdateBL = () => {
         dispatch(editBLAction(data.values))
+    }
+
+    // Hàm reset
+    const resetFunc = () => {
+        arrInput.forEach((item,index) => {
+            const {id,value} = item;
+            if(id === 'tinhTrangBL'){
+                document.getElementById(id).selectedIndex = 0;
+            }else{
+                document.getElementById(id).value = '';
+            }
+        });
     }
 
     const deleteBL = (maBL) => {
@@ -106,11 +120,7 @@ export default function ManageBL() {
     const handleAddBL = () => {
         const bienLai = data.values;
         dispatch(addBLAction(bienLai));
-
-        document.querySelectorAll('.modal-body input').forEach(item => {
-            item.value = "";
-        })
-        document.querySelector('.modal-body select').selectedIndex = 0;
+        resetFunc();
     }
 
     return (
@@ -257,7 +267,7 @@ export default function ManageBL() {
                     <div className="modal-footer" id="modal-footer">
                         <button id="btnThemBL" type="button" className="btn btn-success" onClick={handleAddBL}>Thêm</button>
                         <button id="btnCapNhat" type="button" className="btn btn-success" onClick={handleUpdateBL}>Cập nhật</button>
-                        <button id="btnDong" type="button" className="btn btn-danger" data-dismiss="modal">Đóng</button>
+                        <button id="btnDong" type="button" className="btn btn-danger" onClick={closeModal}  data-dismiss="modal">Đóng</button>
                     </div>
                 </div>
             </div>

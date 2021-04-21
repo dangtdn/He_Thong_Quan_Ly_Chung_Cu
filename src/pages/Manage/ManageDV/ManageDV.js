@@ -13,6 +13,7 @@ export default function ManageDV() {
             giaDV: ""
         }
     })
+    let arrInput = document.querySelectorAll('form input, form select');
 
     const {mangDV} = useSelector(state => state.ListReducer)
 
@@ -60,10 +61,11 @@ export default function ManageDV() {
             document.querySelector('#btnThemDV').classList.remove('hidden');
         }
         document.querySelector('#maDV').disabled = false;
-        
-        document.querySelectorAll('.modal-body input').forEach(item => {
-            item.value = "";
-        })
+    
+    }
+
+    const closeModal = () => {
+        resetFunc();
     }
 
     const editDV = (maDV) => {
@@ -76,15 +78,32 @@ export default function ManageDV() {
         }
         document.querySelector('#maDV').disabled = true;
 
-        let index = mangDV.findIndex(item => item.maDV === maDV);
+        let editDV = mangDV.find(item => item.maDV === maDV);
 
-        document.querySelector('#maDV').value = mangDV[index].maDV;
-        document.querySelector('#tenDV').value = mangDV[index].tenDV;
-        document.querySelector('#giaDV').value = mangDV[index].giaDV;
+        arrInput.forEach((item) => {
+            const {id} = item;
+            if(id === "tinhTrangDV"){
+                document.getElementById(id).selectedIndex = 0;
+            }else{
+                document.getElementById(id).value = editDV[id];
+            }
+        })
     }
 
     const handleUpdateDV = () => {
         dispatch(editDVAction(data.values))
+    }
+
+    // Hàm reset
+    const resetFunc = () => {
+        arrInput.forEach((item,index) => {
+            const {id,value} = item;
+            if(id === 'tinhTrangDV'){
+                document.getElementById(id).selectedIndex = 0;
+            }else{
+                document.getElementById(id).value = '';
+            }
+        });
     }
 
     const deleteDV = (maDV) => {
@@ -95,9 +114,7 @@ export default function ManageDV() {
         const dichVu = data.values;
         dispatch(addDVAction(dichVu));
 
-        document.querySelectorAll('.modal-body input').forEach(item => {
-            item.value = "";
-        })
+        resetFunc();
     }
 
     return (
@@ -208,7 +225,7 @@ export default function ManageDV() {
                     <div className="modal-footer" id="modal-footer">
                         <button id="btnThemDV" type="button" className="btn btn-success" onClick={handleAddDV}>Thêm</button>
                         <button id="btnCapNhat" type="button" className="btn btn-success" onClick={handleUpdateDV}>Cập nhật</button>
-                        <button id="btnDong" type="button" className="btn btn-danger" data-dismiss="modal">Đóng</button>
+                        <button id="btnDong" type="button" className="btn btn-danger" onClick={closeModal}  data-dismiss="modal">Đóng</button>
                     </div>
                 </div>
             </div>

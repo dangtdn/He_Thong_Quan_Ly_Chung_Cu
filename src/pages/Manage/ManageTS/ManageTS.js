@@ -14,6 +14,8 @@ export default function ManageTS() {
             tinhTrangTS: "",
         }
     })
+    let arrInput = document.querySelectorAll('form input, form select');
+
 
     const {mangTS} = useSelector(state => state.ListReducer)
 
@@ -62,11 +64,11 @@ export default function ManageTS() {
             document.querySelector('#btnThemTS').classList.remove('hidden');
         }
         document.querySelector('#maTS').disabled = false;
-        
-        document.querySelectorAll('.modal-body input').forEach(item => {
-            item.value = "";
-        })
-        document.querySelector('.modal-body select').selectedIndex = 0;
+    
+    }
+
+    const closeModal = () => {
+        resetFunc();
     }
 
     const editTS = (maTS) => {
@@ -79,17 +81,32 @@ export default function ManageTS() {
         }
         document.querySelector('#maTS').disabled = true;
 
-        let index = mangTS.findIndex(item => item.maTS === maTS);
+        let editTS = mangTS.find(item => item.maTS === maTS);
 
-        document.querySelector('#maTS').value = mangTS[index].maTS;
-        document.querySelector('#tenTS').value = mangTS[index].tenTS;
-        document.querySelector('#giaTS').value = mangTS[index].giaTS;
-        
-        document.querySelector('.modal-body select').selectedIndex  = 0;
+        arrInput.forEach((item) => {
+            const {id} = item;
+            if(id === "tinhTrangTS"){
+                document.getElementById(id).selectedIndex = 0;
+            }else{
+                document.getElementById(id).value = editTS[id];
+            }
+        })
     }
 
     const handleUpdateTS = () => {
         dispatch(editTSAction(data.values))
+    }
+
+    // Hàm reset
+    const resetFunc = () => {
+        arrInput.forEach((item,index) => {
+            const {id,value} = item;
+            if(id === 'tinhTrangTS'){
+                document.getElementById(id).selectedIndex = 0;
+            }else{
+                document.getElementById(id).value = '';
+            }
+        });
     }
 
     const deleteTS = (maTS) => {
@@ -100,10 +117,7 @@ export default function ManageTS() {
         const taiSan = data.values;
         dispatch(addTSAction(taiSan));
 
-        document.querySelectorAll('.modal-body input').forEach(item => {
-            item.value = "";
-        })
-        document.querySelector('.modal-body select').selectedIndex = 0;
+        resetFunc();
     }
 
     return (
@@ -229,7 +243,7 @@ export default function ManageTS() {
                     <div className="modal-footer" id="modal-footer">
                         <button id="btnThemTS" type="button" className="btn btn-success" onClick={handleAddTS}>Thêm</button>
                         <button id="btnCapNhat" type="button" className="btn btn-success" onClick={handleUpdateTS}>Cập nhật</button>
-                        <button id="btnDong" type="button" className="btn btn-danger" data-dismiss="modal">Đóng</button>
+                        <button id="btnDong" type="button" className="btn btn-danger" onClick={closeModal}  data-dismiss="modal">Đóng</button>
                     </div>
                 </div>
             </div>

@@ -23,8 +23,8 @@ function ManageCH(props) {
             tinhTrangCH: "",
         }
     })
-
-    let arrInput = document.querySelectorAll('.modal-body input');
+    
+    let arrInput = document.querySelectorAll('form input, form select');
 
     const {mangCH} = useSelector(state => state.ListReducer)
     // console.log(mangCH);
@@ -77,10 +77,10 @@ function ManageCH(props) {
         }
         document.querySelector('#maCH').disabled = false;
         
-        document.querySelectorAll('.modal-body input').forEach(item => {
-            item.value = "";
-        })
-        document.querySelector('.modal-body select').selectedIndex = 0;
+    }
+
+    const closeModal = () => {
+        resetFunc();
     }
 
     const editCH = (maCH) => {
@@ -93,31 +93,46 @@ function ManageCH(props) {
         }
         document.querySelector('#maCH').disabled = true;
 
-        let index = mangCH.findIndex(item => item.maCH === maCH);
-        setdataEdit({
-            values: mangCH[index]
+        let editCH = mangCH.find(item => item.maCH === maCH);
+
+        arrInput.forEach((item) => {
+            const {id} = item;
+            if(id === "tinhTrangCH"){
+                document.getElementById(id).selectedIndex = 0;
+            }else{
+                document.getElementById(id).value = editCH[id];
+            }
         })
-
-        document.querySelector('#maCH').value = mangCH[index].maCH;
-        document.querySelector('#tenCH').value = mangCH[index].tenCH;
-        document.querySelector('#giaCH').value = mangCH[index].giaCH;
-
-        document.querySelector('.modal-body select').selectedIndex  = 0;
     }
 
     const handleUpdateCH = () => {
-        let newValues = {...dataEdit.values};
-        let {value, name} = arrInput;
-        console.log(newValues)
-        arrInput.forEach(item => {
-            newValues[name] = value;
-        })
+        console.log(arrInput)
+        let newValues = {...dataEdit};
+        console.log('run',newValues)
+        
+        for (let input of arrInput){
+            const {value, id} = input;
+            newValues = {...newValues,[id]:value}
+        }
+
         setdataEdit({
             values: newValues
         })
-        const editCanHo = {...dataEdit.values};
+        const editCanHo = dataEdit.values;
         dispatch(editCHAction(editCanHo));
-        console.log(mangCH)
+        // console.log(mangCH)
+    }
+
+    // Hàm reset
+    const resetFunc = () => {
+        arrInput.forEach((item,index) => {
+            const {id,value} = item;
+            if(id === 'tinhTrangCH'){
+                document.getElementById(id).selectedIndex = 0;
+            }else{
+                document.getElementById(id).value = '';
+            }
+        });
     }
 
     const deleteCH = (maCH) => {
@@ -127,11 +142,7 @@ function ManageCH(props) {
     const handleAddCH = () => {
         const canHo = {...data.values};
         dispatch(addCHAction(canHo));
-
-        document.querySelectorAll('.modal-body input').forEach(item => {
-            item.value = "";
-        })
-        document.querySelector('.modal-body select').selectedIndex = 0;
+        resetFunc();
     }
 
     return (
@@ -260,7 +271,7 @@ function ManageCH(props) {
                     <div className="modal-footer" id="modal-footer">
                         <button id="btnThemCH" type="button" className="btn btn-success" onClick={handleAddCH}>Thêm</button>
                         <button id="btnCapNhat" type="button" className="btn btn-success" onClick={handleUpdateCH}>Cập nhật</button>
-                        <button id="btnDong" type="button" className="btn btn-danger" data-dismiss="modal">Đóng</button>
+                        <button id="btnDong" type="button" className="btn btn-danger" onClick={closeModal} data-dismiss="modal">Đóng</button>
                     </div>
                 </div>
             </div>
