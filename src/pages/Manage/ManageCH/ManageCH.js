@@ -1,30 +1,112 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
-import {useSelector} from 'react-redux'
-import Modal from '../../../Components/Modal/Modal'
+import {useDispatch, useSelector} from 'react-redux'
 import NavBar from '../../../Components/NavBar/NavBar'
+import { addCHAction, deleteCHAction, editCHAction } from '../../../redux/actions/DataAction'
 
-export default function ManageCH(props) {
+function ManageCH(props) {
+
+    let [data, setData] = useState({
+        title: "Thêm căn hộ",
+        values: {
+            maCH: "",
+            tenCH: "",
+            giaCH: "",
+            tinhTrangCH: "",
+        }
+    })
+
+    let arrInput = document.querySelectorAll('.modal-body input');
 
     const {mangCH} = useSelector(state => state.ListReducer)
+    // console.log(mangCH);
+    const dispatch = useDispatch();
 
     const renderListCH = () => {
         return mangCH.map((item,index) => {
             return <tr key={index}>
-                <td>{index+1}</td>
+                <td>{item.maCH}</td>
                 <td>{item.tenCH}</td>
-                <td>{item.gia}</td>
-                <td>{item.tinhTrang}</td>
+                <td>{item.giaCH}</td>
+                <td>{item.tinhTrangCH}</td>
                 <td>
                     <button 
                     className="btn btn-info mr-2"
                     data-toggle="modal"
                     data-target="#myModal"
+                    onClick={() => {
+                        editCH(item.maCH)
+                    }}
                     >Sửa</button>
-                    <button className="btn btn-danger">Xóa</button>
+                    <button className="btn btn-danger" 
+                    onClick={() => {deleteCH(item.maCH)}}>Xóa</button>
                 </td>
             </tr>
         })
+    }
+
+    const handleChange = (event) => {
+        const {value, name} = event.target;
+
+        let newValues = {...data.values};
+        newValues[name] = value;
+
+        setData({
+            values: newValues
+        })
+    }
+
+    const addCH = () => {
+        setData({
+            title: "Thêm căn hộ"
+        })
+        document.querySelector('#btnCapNhat').classList.add('hidden');
+        if(document.querySelector('#btnThemCH.hidden')){
+            document.querySelector('#btnThemCH').classList.remove('hidden');
+        }
+        document.querySelector('#maCH').disabled = false;
+        
+        document.querySelectorAll('.modal-body input').forEach(item => {
+            item.value = "";
+        })
+        document.querySelector('.modal-body select').selectedIndex = 0;
+    }
+
+    const editCH = (maCH) => {
+        setData({
+            title: "Chỉnh sửa căn hộ"
+        })
+        document.querySelector('#btnThemCH').classList.add('hidden');
+        if(document.querySelector('#btnCapNhat.hidden')){
+            document.querySelector('#btnCapNhat').classList.remove('hidden');
+        }
+        document.querySelector('#maCH').disabled = true;
+
+        let index = mangCH.findIndex(item => item.maCH === maCH);
+
+        document.querySelector('#maCH').value = mangCH[index].maCH;
+        document.querySelector('#tenCH').value = mangCH[index].tenCH;
+        document.querySelector('#giaCH').value = mangCH[index].giaCH;
+        let count = 0;
+            document.querySelector('.modal-body select').selectedIndex  = 0;
+    }
+
+    const handleUpdateCH = () => {
+        dispatch(editCHAction(data.values))
+    }
+
+    const deleteCH = (maCH) => {
+        dispatch(deleteCHAction(maCH));
+    }
+      
+    const handleAddCH = () => {
+        const canHo = data.values;
+        dispatch(addCHAction(canHo));
+
+        document.querySelectorAll('.modal-body input').forEach(item => {
+            item.value = "";
+        })
+        document.querySelector('.modal-body select').selectedIndex = 0;
     }
 
     return (
@@ -41,7 +123,10 @@ export default function ManageCH(props) {
                                 <h3 className="text-left text-primary font-weight-bold">Danh sách căn hộ</h3>
                             </div>
                             <div className="col-md-6 text-right">
-                                <button className="btn btn-primary" id="btnThem" data-toggle="modal" data-target="#myModal">Thêm căn hộ</button>
+                                <button className="btn btn-primary" id="btnThem" data-toggle="modal" data-target="#myModal"
+                                onClick={() => {
+                                    addCH()
+                                }}>Thêm căn hộ</button>
                             </div>
                         </div>
                     </div>
@@ -92,7 +177,7 @@ export default function ManageCH(props) {
             <div className="modal-dialog">
                 <div className="modal-content">
                     <header className="head-form mb-0">
-                        <h2 id="header-title">Thêm căn hộ</h2>
+                        <h2 id="header-title">{data.title}</h2>
                     </header>
                     {/* Modal Header */}
                     {/* 	<div class="modal-header">
@@ -105,42 +190,51 @@ export default function ManageCH(props) {
                             <div className="form-group">
                                 <div className="input-group">
                                     <div className="input-group-prepend">
+                                        <span className="input-group-text"><i class="fa fa-circle"></i></span>
+                                    </div>
+                                    <input type="text" name="maCH" id="maCH" onChange={handleChange} className="form-control input-sm" placeholder="Mã căn hộ" />
+                                </div>
+                                <span className="sp-thongbao" id="tbMaCH" />
+                            </div>
+                            <div className="form-group">
+                                <div className="input-group">
+                                    <div className="input-group-prepend">
                                         <span className="input-group-text"><i class="fa fa-hotel"></i></span>
                                     </div>
-                                    <input type="name" name="name" id="name" className="form-control input-sm" placeholder="Tên căn hộ" />
+                                    <input type="name" name="tenCH" id="tenCH" onChange={handleChange} className="form-control input-sm" placeholder="Tên căn hộ" />
                                 </div>
-                                <span className="sp-thongbao" id="tbTen" />
+                                <span className="sp-thongbao" id="tbNameCH" />
                             </div>
                             <div className="form-group">
                                 <div className="input-group">
                                     <div className="input-group-prepend">
                                         <span className="input-group-text"><i class="fa fa-money-bill-wave"></i></span>
                                     </div>
-                                    <input type="price" name="price" id="price" className="form-control input-sm" placeholder="Giá căn hộ" />
+                                    <input type="price" name="giaCH" id="giaCH" onChange={handleChange} className="form-control input-sm" placeholder="Giá căn hộ" />
                                 </div>
-                                <span className="sp-thongbao" id="tbEmail" />
+                                <span className="sp-thongbao" id="tbPriceCH" />
                             </div>
                            <div className="form-group">
                                 <div className="input-group">
                                     <div className="input-group-prepend">
-                                        <span className="input-group-text"><i class="fab fa-stripe-s"></i></span>
+                                        <span className="input-group-text"><i class="fa fa-clipboard-list"></i></span>
                                     </div>
-                                    <select className="form-control" id="tinhtrang">
-                                        <option>Chọn tình trạng</option>
-                                        <option value="1">Đã bán</option>
-                                        <option value="2">Còn trống</option>
-                                        <option value="3">Cho thuê</option>
-                                        <option value="4">Trả góp</option>
+                                    <select className="form-control" name="tinhTrangCH" onChange={handleChange} id="tinhTrangCH">
+                                        <option value="">Chọn tình trạng</option>
+                                        <option value="Đã bán">Đã bán</option>
+                                        <option value="Còn trống">Còn trống</option>
+                                        <option value="Cho thuê">Cho thuê</option>
+                                        <option value="Trả góp">Trả góp</option>
                                     </select>
                                 </div>
-                                <span className="sp-thongbao" id="tbChucVu" />
+                                <span className="sp-thongbao" id="tbTinhTrangCH" />
                             </div>
                         </form>
                     </div>
                     {/* Modal footer */}
                     <div className="modal-footer" id="modal-footer">
-                        <button id="btnThemNV" type="button" className="btn btn-success">Thêm</button>
-                        <button id="btnCapNhat" type="button" className="btn btn-success">Cập nhật</button>
+                        <button id="btnThemCH" type="button" className="btn btn-success" onClick={handleAddCH}>Thêm</button>
+                        <button id="btnCapNhat" type="button" className="btn btn-success" onClick={handleUpdateCH}>Cập nhật</button>
                         <button id="btnDong" type="button" className="btn btn-danger" data-dismiss="modal">Đóng</button>
                     </div>
                 </div>
@@ -149,3 +243,5 @@ export default function ManageCH(props) {
         </div>
     )
 }
+
+export default ManageCH;

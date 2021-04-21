@@ -1,5 +1,6 @@
 [
     {
+        "maDC" : "1",
         "hotenlot": "Nguyễn Văn",
         "ten": "An",
         "ngaySinh": "03/03/1990",
@@ -10,53 +11,58 @@
         "maCH": 1
     },
     {
-        "hotenlot": "Nguyễn Văn",
+        "maDC" : "2",
+        "hotenlot": "Trần Mạnh",
         "ten": "An",
-        "ngaySinh": "03/03/1990",
+        "ngaySinh": "03/12/1990",
         "gioiTinh": "Nam",
         "cmnd": "111129102",
         "sdt": "09021212801",
         "ngayChuyenVao": "08/09/2020",
-        "maCH": 1
+        "maCH": 4
     },
     {
+        "maDC" : "3",
         "hotenlot": "Nguyễn Văn",
-        "ten": "An",
-        "ngaySinh": "03/03/1990",
+        "ten": "Cường",
+        "ngaySinh": "12/03/2000",
         "gioiTinh": "Nam",
         "cmnd": "111129102",
-        "sdt": "09021212801",
-        "ngayChuyenVao": "08/09/2020",
-        "maCH": 1
+        "sdt": "090892492",
+        "ngayChuyenVao": "08/12/2020",
+        "maCH": 2
     },
     {
+        "maDC" : "4",
         "hotenlot": "Nguyễn Văn",
         "ten": "An",
-        "ngaySinh": "03/03/1990",
+        "ngaySinh": "03/11/1990",
         "gioiTinh": "Nam",
         "cmnd": "111129102",
-        "sdt": "09021212801",
-        "ngayChuyenVao": "08/09/2020",
-        "maCH": 1
+        "sdt": "09199292",
+        "ngayChuyenVao": "08/09/2021",
+        "maCH": 3
     },
     {
+        "maDC" : "5",
         "hotenlot": "Nguyễn Văn",
-        "ten": "An",
+        "ten": "Lân",
         "ngaySinh": "03/03/1990",
         "gioiTinh": "Nam",
         "cmnd": "111129102",
         "sdt": "09021212801",
-        "ngayChuyenVao": "08/09/2020",
-        "maCH": 1
+        "ngayChuyenVao": "01/09/2020",
+        "maCH": 5
     },
     {
-        "hotenlot": "Nguyễn Văn",
-        "ten": "An",
+        "maDC" : "6",
+        "hotenlot": "Lâm",
+        "ten": "Cường",
         "ngaySinh": "03/03/1990",
         "gioiTinh": "Nam",
         "cmnd": "111129102",
         "sdt": "09021212801",
         "ngayChuyenVao": "08/09/2020",
-        "maCH": 1
+        "maCH": 7
     }
 ]

@@ -12,7 +12,7 @@ export default function NavBar() {
                 <button type="button" className="btn btn-info navbar-btn"
                     onClick={hiddenSideBar}>
                     <i className="glyphicon glyphicon-align-left" />
-                    <span>Toggle Sidebar</span>
+                    <span>Toggle</span>
                 </button>
             </div>
             <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

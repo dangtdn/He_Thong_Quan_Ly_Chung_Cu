@@ -1,22 +1,26 @@
 [
     {
+        "maTS" : "1",
         "tenTS": "TS001",
         "giaTS": "1000",
-        "tinhTrang": "tốt"
+        "tinhTrangTS": "tốt"
     },
     {
+        "maTS" : "2",
         "tenTS": "TS002",
-        "giaTS": "1000",
-        "tinhTrang": "hư hỏng"
+        "giaTS": "2000",
+        "tinhTrangTS": "hư hỏng"
     },
     {
+        "maTS" : "3",
         "tenTS": "TS003",
-        "giaTS": "1000",
-        "tinhTrang": "mất"
+        "giaTS": "3000",
+        "tinhTrangTS": "mất"
     },
     {
+        "maTS" : "4",
         "tenTS": "TS004",
         "giaTS": "1000",
-        "tinhTrang": "tốt"
+        "tinhTrangTS": "tốt"
     }
 ]

@@ -1,28 +1,109 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, {useState} from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import NavBar from '../../../Components/NavBar/NavBar'
+import { addTSAction, deleteTSAction, editTSAction } from '../../../redux/actions/DataAction'
 
 export default function ManageTS() {
 
+    let [data, setData] = useState({
+        title: "Thêm tài sản",
+        values: {
+            maTS: "",
+            tenTS: "",
+            giaTS: "",
+            tinhTrangTS: "",
+        }
+    })
+
     const {mangTS} = useSelector(state => state.ListReducer)
+
+    const dispatch = useDispatch();
 
     const renderListTS = () => {
         return mangTS.map((item,index) => {
             return <tr key={index}>
-                <td>{index+1}</td>
+                <td>{item.maTS}</td>
                 <td>{item.tenTS}</td>
                 <td>{item.giaTS}</td>
-                <td>{item.tinhTrang}</td>
+                <td>{item.tinhTrangTS}</td>
                 <td>
                     <button 
                     className="btn btn-info mr-2"
                     data-toggle="modal"
                     data-target="#myModal"
+                    onClick={() => {
+                        editTS(item.maTS)
+                    }}
                     >Sửa</button>
-                    <button className="btn btn-danger">Xóa</button>
+                    <button className="btn btn-danger" 
+                    onClick={() => {deleteTS(item.maTS)}}>Xóa</button>
                 </td>
             </tr>
         })
+    }
+
+    const handleChange = (event) => {
+        const {value, name} = event.target;
+
+        let newValues = {...data.values};
+        newValues[name] = value;
+
+        setData({
+            values: newValues
+        })
+    }
+
+    const addTS = () => {
+        setData({
+            title: "Thêm tài sản"
+        })
+        document.querySelector('#btnCapNhat').classList.add('hidden');
+        if(document.querySelector('#btnThemTS.hidden')){
+            document.querySelector('#btnThemTS').classList.remove('hidden');
+        }
+        document.querySelector('#maTS').disabled = false;
+        
+        document.querySelectorAll('.modal-body input').forEach(item => {
+            item.value = "";
+        })
+        document.querySelector('.modal-body select').selectedIndex = 0;
+    }
+
+    const editTS = (maTS) => {
+        setData({
+            title: "Chỉnh sửa tài sản"
+        })
+        document.querySelector('#btnThemTS').classList.add('hidden');
+        if(document.querySelector('#btnCapNhat.hidden')){
+            document.querySelector('#btnCapNhat').classList.remove('hidden');
+        }
+        document.querySelector('#maTS').disabled = true;
+
+        let index = mangTS.findIndex(item => item.maTS === maTS);
+
+        document.querySelector('#maTS').value = mangTS[index].maTS;
+        document.querySelector('#tenTS').value = mangTS[index].tenTS;
+        document.querySelector('#giaTS').value = mangTS[index].giaTS;
+        
+        document.querySelector('.modal-body select').selectedIndex  = 0;
+    }
+
+    const handleUpdateTS = () => {
+        dispatch(editTSAction(data.values))
+    }
+
+    const deleteTS = (maTS) => {
+        dispatch(deleteTSAction(maTS));
+    }
+      
+    const handleAddTS = () => {
+        const taiSan = data.values;
+        dispatch(addTSAction(taiSan));
+
+        document.querySelectorAll('.modal-body input').forEach(item => {
+            item.value = "";
+        })
+        document.querySelector('.modal-body select').selectedIndex = 0;
     }
 
     return (
@@ -39,7 +120,10 @@ export default function ManageTS() {
                                 <h3 className="text-left text-primary font-weight-bold">Danh sách tài sản</h3>
                             </div>
                             <div className="col-md-6 text-right">
-                                <button className="btn btn-primary" id="btnThem" data-toggle="modal" data-target="#myModal">Thêm tài sản</button>
+                                <button className="btn btn-primary" id="btnThem" data-toggle="modal" data-target="#myModal"
+                                onClick={() => {
+                                    addTS()
+                                }}>Thêm tài sản</button>
                             </div>
                         </div>
                     </div>
@@ -83,6 +167,73 @@ export default function ManageTS() {
                     </div>
                 </div>
             </div>
+            {/* Modal box */}
+            <div div className = "modal fade" id = "myModal" >
+            <div className="modal-dialog">
+                <div className="modal-content">
+                    <header className="head-form mb-0">
+                        <h2 id="header-title">{data.title}</h2>
+                    </header>
+                    {/* Modal Header */}
+                    {/* 	<div class="modal-header">
+					<h4 class="modal-title" id="modal-title">Modal Heading</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div> */}
+                    {/* Modal body */}
+                    <div className="modal-body">
+                        <form role="form">
+                            <div className="form-group">
+                                <div className="input-group">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text"><i class="fa fa-circle"></i></span>
+                                    </div>
+                                    <input type="text" name="maTS" id="maTS" onChange={handleChange} className="form-control input-sm" placeholder="Mã tài sản" />
+                                </div>
+                                <span className="sp-thongbao" id="tbMaTS" />
+                            </div>
+                            <div className="form-group">
+                                <div className="input-group">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text"><i class="fa fa-couch"></i></span>
+                                    </div>
+                                    <input type="text" name="tenTS" id="tenTS" onChange={handleChange} className="form-control input-sm" placeholder="Tên tài sản" />
+                                </div>
+                                <span className="sp-thongbao" id="tbNameTS" />
+                            </div>
+                            <div className="form-group">
+                                <div className="input-group">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text"><i class="fa fa-money-bill-wave"></i></span>
+                                    </div>
+                                    <input type="text" name="giaTS" id="giaTS" onChange={handleChange} className="form-control input-sm" placeholder="Giá tài sản" />
+                                </div>
+                                <span className="sp-thongbao" id="tbPriceTS" />
+                            </div>
+                            <div className="form-group">
+                                <div className="input-group">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text"><i class="fa fa-clipboard-list"></i></span>
+                                    </div>
+                                    <select className="form-control" id="tinhTrangTS" onChange={handleChange} name="tinhTrangTS">
+                                        <option>Chọn tình trạng</option>
+                                        <option value="Bình thường">Bình thường</option>
+                                        <option value="Hư hỏng">Hư hỏng</option>
+                                        <option value="Mất">Mất</option>
+                                    </select>
+                                </div>
+                                <span className="sp-thongbao" id="tbTinhTrangTS" />
+                            </div>
+                        </form>
+                    </div>
+                    {/* Modal footer */}
+                    <div className="modal-footer" id="modal-footer">
+                        <button id="btnThemTS" type="button" className="btn btn-success" onClick={handleAddTS}>Thêm</button>
+                        <button id="btnCapNhat" type="button" className="btn btn-success" onClick={handleUpdateTS}>Cập nhật</button>
+                        <button id="btnDong" type="button" className="btn btn-danger" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
     )
 }

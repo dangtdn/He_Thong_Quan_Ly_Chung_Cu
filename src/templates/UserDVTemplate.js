@@ -1,10 +1,13 @@
-import React, { Fragment } from 'react'
+import React, {Component} from 'react'
+import { Route } from 'react-router';
 import { NavLink } from 'react-router-dom'
 
-export default function SideBar() {
+export const UserDVTemplate = (props) => {
 
-    return (
-        <Fragment>
+    let {Component,...restRoute} = props;
+
+    return <Route {...restRoute} render={(propsRoute) => {
+        return <div className="wrapper">
             <nav id="sidebar">
                 <div className="sidebar-header">
                     <h3>Apartment Manager</h3>
@@ -12,7 +15,7 @@ export default function SideBar() {
                 </div>
                 <ul className="list-unstyled components">
                     <li>
-                        <NavLink to="/">
+                        <NavLink to="/home">
                             <i className="fas fa-home" />
           Home
         </NavLink>
@@ -35,19 +38,7 @@ export default function SideBar() {
         </a>
                         <ul className="collapse list-unstyled" id="manageSubmenu">
                             <li>
-                                <NavLink to="/canho">Căn hộ</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/dancu">Dân cư</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/taisan">Tài sản</NavLink>
-                            </li>
-                            <li>
                                 <NavLink to="/dichvu">Dịch vụ</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/bienlai">Biên lai</NavLink>
                             </li>
                         </ul>
                     </li>
@@ -58,9 +49,6 @@ export default function SideBar() {
         </a>
                         <ul className="collapse list-unstyled" id="settingSubmenu">
                             <li>
-                                <NavLink to="/register">Đăng ký tài khoản</NavLink>
-                            </li>
-                            <li>
                                 <NavLink to="/changepass">Đổi mật khẩu</NavLink>
                             </li>
                             <li>
@@ -70,7 +58,7 @@ export default function SideBar() {
                     </li>
                 </ul>
             </nav>
-        </Fragment>
-
-    )
+            <Component {...propsRoute}/>
+        </div>
+    }}/>
 }

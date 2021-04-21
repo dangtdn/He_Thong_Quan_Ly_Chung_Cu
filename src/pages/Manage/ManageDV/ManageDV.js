@@ -1,15 +1,27 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, {useState} from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import NavBar from '../../../Components/NavBar/NavBar'
+import { addDVAction, deleteDVAction, editDVAction } from '../../../redux/actions/DataAction'
 
 export default function ManageDV() {
 
+    let [data, setData] = useState({
+        title: "Thêm dịch vụ",
+        values: {
+            maDV: "",
+            tenDV: "",
+            giaDV: ""
+        }
+    })
+
     const {mangDV} = useSelector(state => state.ListReducer)
+
+    const dispatch = useDispatch();
 
     const renderListDV = () => {
         return mangDV.map((item,index) => {
             return <tr key={index}>
-                <td>{index+1}</td>
+                <td>{item.maDV}</td>
                 <td>{item.tenDV}</td>
                 <td>{item.giaDV}</td>
                 <td>
@@ -17,10 +29,74 @@ export default function ManageDV() {
                     className="btn btn-info mr-2"
                     data-toggle="modal"
                     data-target="#myModal"
+                    onClick={() => {
+                        editDV(item.maDV)
+                    }}
                     >Sửa</button>
-                    <button className="btn btn-danger">Xóa</button>
+                    <button className="btn btn-danger" 
+                    onClick={() => {deleteDV(item.maDV)}}>Xóa</button>
                 </td>
             </tr>
+        })
+    }
+
+    const handleChange = (event) => {
+        const {value, name} = event.target;
+
+        let newValues = {...data.values};
+        newValues[name] = value;
+
+        setData({
+            values: newValues
+        })
+    }
+
+    const addDV = () => {
+        setData({
+            title: "Thêm dịch vụ"
+        })
+        document.querySelector('#btnCapNhat').classList.add('hidden');
+        if(document.querySelector('#btnThemDV.hidden')){
+            document.querySelector('#btnThemDV').classList.remove('hidden');
+        }
+        document.querySelector('#maDV').disabled = false;
+        
+        document.querySelectorAll('.modal-body input').forEach(item => {
+            item.value = "";
+        })
+    }
+
+    const editDV = (maDV) => {
+        setData({
+            title: "Chỉnh sửa dịch vụ"
+        })
+        document.querySelector('#btnThemDV').classList.add('hidden');
+        if(document.querySelector('#btnCapNhat.hidden')){
+            document.querySelector('#btnCapNhat').classList.remove('hidden');
+        }
+        document.querySelector('#maDV').disabled = true;
+
+        let index = mangDV.findIndex(item => item.maDV === maDV);
+
+        document.querySelector('#maDV').value = mangDV[index].maDV;
+        document.querySelector('#tenDV').value = mangDV[index].tenDV;
+        document.querySelector('#giaDV').value = mangDV[index].giaDV;
+    }
+
+    const handleUpdateDV = () => {
+        dispatch(editDVAction(data.values))
+    }
+
+    const deleteDV = (maDV) => {
+        dispatch(deleteDVAction(maDV));
+    }
+      
+    const handleAddDV = () => {
+        const dichVu = data.values;
+        dispatch(addDVAction(dichVu));
+
+        document.querySelectorAll('.modal-body input').forEach(item => {
+            item.value = "";
         })
     }
 
@@ -38,7 +114,10 @@ export default function ManageDV() {
                                 <h3 className="text-left text-primary font-weight-bold">Danh sách dịch vụ</h3>
                             </div>
                             <div className="col-md-6 text-right">
-                                <button className="btn btn-primary" id="btnThem" data-toggle="modal" data-target="#myModal">Thêm dịch vụ</button>
+                                <button className="btn btn-primary" id="btnThem" data-toggle="modal" data-target="#myModal"
+                                onClick={() => {
+                                    addDV()
+                                }}>Thêm dịch vụ</button>
                             </div>
                         </div>
                     </div>
@@ -81,6 +160,59 @@ export default function ManageDV() {
                     </div>
                 </div>
             </div>
+            {/* Modal box */}
+            <div div className = "modal fade" id = "myModal" >
+            <div className="modal-dialog">
+                <div className="modal-content">
+                    <header className="head-form mb-0">
+                        <h2 id="header-title">{data.title}</h2>
+                    </header>
+                    {/* Modal Header */}
+                    {/* 	<div class="modal-header">
+					<h4 class="modal-title" id="modal-title">Modal Heading</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div> */}
+                    {/* Modal body */}
+                    <div className="modal-body">
+                        <form role="form">
+                            <div className="form-group">
+                                <div className="input-group">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text"><i className="fa fa-circle" /></span>
+                                    </div>
+                                    <input type="text" name="maDV" id="maDV" onChange={handleChange} className="form-control input-sm" placeholder="Mã dịch vụ" />
+                                </div>
+                                <span className="sp-thongbao" id="tbMaDV" />
+                            </div>
+                            <div className="form-group">
+                                <div className="input-group">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text"><i className="fa fa-user" /></span>
+                                    </div>
+                                    <input type="text" name="tenDV" id="tenDV" onChange={handleChange} className="form-control input-sm" placeholder="Tên dịch vụ" />
+                                </div>
+                                <span className="sp-thongbao" id="tbNameDV" />
+                            </div>
+                            <div className="form-group">
+                                <div className="input-group">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text"><i class="fa fa-money-bill-wave"></i></span>
+                                    </div>
+                                    <input type="text" name="giaDV" id="giaDV" onChange={handleChange} className="form-control input-sm" placeholder="Giá dịch vụ" />
+                                </div>
+                                <span className="sp-thongbao" id="tbPriceDV" />
+                            </div>
+                        </form>
+                    </div>
+                    {/* Modal footer */}
+                    <div className="modal-footer" id="modal-footer">
+                        <button id="btnThemDV" type="button" className="btn btn-success" onClick={handleAddDV}>Thêm</button>
+                        <button id="btnCapNhat" type="button" className="btn btn-success" onClick={handleUpdateDV}>Cập nhật</button>
+                        <button id="btnDong" type="button" className="btn btn-danger" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
     )
 }

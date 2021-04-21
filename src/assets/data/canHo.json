@@ -1,26 +1,50 @@
 [
     {
-        "maCH": 1,
+        "maCH": "1",
         "tenCH": "PH001",
-        "gia": "1000000",
-        "tinhTrang": "trống"
+        "giaCH": "1000000",
+        "tinhTrangCH": "trống"
     },
     {
-        "maCH": 2,
+        "maCH": "2",
         "tenCH": "PH002",
-        "gia": "1000000",
-        "tinhTrang": "đã bán"
+        "giaCH": "1000000",
+        "tinhTrangCH": "đã bán"
     },
     {
-        "maCH": 3,
+        "maCH": "3",
         "tenCH": "PH003",
-        "gia": "1000000",
-        "tinhTrang": "cho thuê"
+        "giaCH": "1000000",
+        "tinhTrangCH": "cho thuê"
     },
     {
-        "maCH": 4,
+        "maCH": "4",
         "tenCH": "PH004",
-        "gia": "1000000",
-        "tinhTrang": "trống"
+        "giaCH": "1000000",
+        "tinhTrangCH": "trống"
+    },
+    {
+        "maCH": "5",
+        "tenCH": "PH005",
+        "giaCH": "1000000",
+        "tinhTrangCH": "đã bán"
+    },
+    {
+        "maCH": "6",
+        "tenCH": "PH006",
+        "giaCH": "1000000",
+        "tinhTrangCH": "trả góp"
+    },
+    {
+        "maCH": "7",
+        "tenCH": "PH007",
+        "giaCH": "1000000",
+        "tinhTrangCH": "đã bán"
+    },
+    {
+        "maCH": "8",
+        "tenCH": "PH008",
+        "giaCH": "1000000",
+        "tinhTrangCH": "trả góp"
     }
 ]

@@ -2,17 +2,41 @@
     {
         "maBL": "1",
         "soTienThanhToan": 900,
-        "maCH": 3,
+        "maCH": "3",
         "thoiGianLap": "30/10/2020",
-        "tinhTrang": "chưa thanh toán",
+        "tinhTrangBL": "chưa thanh toán",
         "nguoiLap": "admin"
     },
     {
         "maBL": "2",
+        "soTienThanhToan": 800,
+        "maCH": "5",
+        "thoiGianLap": "30/09/2020",
+        "tinhTrangBL": "hoàn tất",
+        "nguoiLap": "admin"
+    },
+    {
+        "maBL": "3",
+        "soTienThanhToan": 900,
+        "maCH": "3",
+        "thoiGianLap": "21/10/2020",
+        "tinhTrangBL": "chưa thanh toán",
+        "nguoiLap": "admin"
+    },
+    {
+        "maBL": "4",
         "soTienThanhToan": 400,
-        "maCH": 3,
+        "maCH": "5",
         "thoiGianLap": "30/11/2020",
-        "tinhTrang": "hoàn tất",
+        "tinhTrangBL": "hoàn tất",
+        "nguoiLap": "admin"
+    },
+    {
+        "maBL": "5",
+        "soTienThanhToan": 100,
+        "maCH": "7",
+        "thoiGianLap": "11/11/2020",
+        "tinhTrangBL": "hoàn tất",
         "nguoiLap": "admin"
     }
 ]

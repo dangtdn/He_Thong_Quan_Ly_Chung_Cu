@@ -1,14 +1,11 @@
-import {combineReducers, createStore} from "redux"
+import {applyMiddleware, combineReducers, createStore} from "redux"
 import {ListReducer} from "./reducers/ListReducer"
-import {danCuReducer} from "./reducers/DanCuReducer"
-import {dichVuReducer} from "./reducers/DichVuReducer"
-import {taiSanReducer} from "./reducers/TaiSanReducer"
+import {NguoiDungReducer} from "./reducers/NguoiDungReducer"
+import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers ({
     ListReducer,
-    // danCuReducer,
-    // dichVuReducer,
-    // taiSanReducer
+    NguoiDungReducer
 })
 
-export const store = createStore(rootReducer);
+export const store = createStore(rootReducer, applyMiddleware(thunk));

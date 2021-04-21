@@ -1,9 +1,8 @@
 import React, {Component} from 'react'
 import { Route } from 'react-router';
-import Modal from '../Components/Modal/Modal';
 import SideBar from '../Components/SideBar/SideBar';
 
-export const HomeTemplate = (props) => {
+export const AdminTemplate = (props) => {
 
     let {Component,...restRoute} = props;
 
