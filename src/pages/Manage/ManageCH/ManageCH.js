@@ -108,7 +108,7 @@ function ManageCH(props) {
     const handleUpdateCH = () => {
         let newValues = {...dataEdit.values};
         let {value, name} = arrInput;
-
+        console.log(newValues)
         arrInput.forEach(item => {
             newValues[name] = value;
         })
@@ -119,10 +119,6 @@ function ManageCH(props) {
         dispatch(editCHAction(editCanHo));
         console.log(mangCH)
     }
-
-    useEffect(() => {
-        renderListCH();
-    },dataEdit)
 
     const deleteCH = (maCH) => {
         dispatch(deleteCHAction(maCH));
