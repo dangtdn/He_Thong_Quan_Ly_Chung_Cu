@@ -1,8 +1,14 @@
 import React, {Component} from 'react'
 import { Route } from 'react-router';
 import { NavLink } from 'react-router-dom'
+import { history } from '../App';
 
 export const UserDCTemplate = (props) => {
+
+    const logOut = () => {
+        localStorage.clear();
+        history.push('/')
+    }
 
     let {Component,...restRoute} = props;
 
@@ -52,7 +58,7 @@ export const UserDCTemplate = (props) => {
                                 <NavLink to="/changepass">Đổi mật khẩu</NavLink>
                             </li>
                             <li>
-                                <NavLink to="/">Đăng xuất</NavLink>
+                                <a href="" onClick={logOut}>Đăng xuất</a>
                             </li>
                         </ul>
                     </li>

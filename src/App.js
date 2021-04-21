@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Router } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
@@ -16,6 +16,10 @@ import {UserCHTemplate} from './templates/UserCHTemplate';
 import { UserDCTemplate } from './templates/UserDCTemplate';
 import { UserDVTemplate } from './templates/UserDVTemplate';
 import { UserTSTemplate } from './templates/UserTSTemplate';
+//import history 
+import {createBrowserHistory} from 'history'
+//Đối tượng giúp chuyển hướng trang bất kì file nào 
+export const history =  createBrowserHistory();
 
 function App() {
   const {type, isLogin} = (!localStorage.getItem("user")) ? {type: 0, isLogin: false} : JSON.parse(localStorage.getItem("user"));
@@ -101,13 +105,13 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
+    <Router history={history}>
     <div className="App">
     {
       renderTemplate({type: type, isLogin: isLogin})
     }
     </div>
-    </BrowserRouter>
+    </Router>
   );
 }
 

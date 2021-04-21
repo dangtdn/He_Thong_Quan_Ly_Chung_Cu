@@ -1,7 +1,13 @@
 import React, { Fragment } from 'react'
 import { NavLink } from 'react-router-dom'
+import { history } from '../../App';
 
 export default function SideBar() {
+
+    const logOut = () => {
+        localStorage.clear();
+        history.push('/')
+    }
 
     return (
         <Fragment>
@@ -64,7 +70,7 @@ export default function SideBar() {
                                 <NavLink to="/changepass">Đổi mật khẩu</NavLink>
                             </li>
                             <li>
-                                <NavLink to="/">Đăng xuất</NavLink>
+                                <a href="" onClick={logOut}>Đăng xuất</a>
                             </li>
                         </ul>
                     </li>

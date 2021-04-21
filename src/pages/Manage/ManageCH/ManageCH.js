@@ -15,6 +15,14 @@ function ManageCH(props) {
             tinhTrangCH: "",
         }
     })
+    let [dataEdit, setdataEdit] = useState({
+        values: {
+            maCH: "",
+            tenCH: "",
+            giaCH: "",
+            tinhTrangCH: "",
+        }
+    })
 
     let arrInput = document.querySelectorAll('.modal-body input');
 
@@ -54,6 +62,9 @@ function ManageCH(props) {
         setData({
             values: newValues
         })
+        setdataEdit({
+            values: newValues
+        })
     }
 
     const addCH = () => {
@@ -83,24 +94,42 @@ function ManageCH(props) {
         document.querySelector('#maCH').disabled = true;
 
         let index = mangCH.findIndex(item => item.maCH === maCH);
+        setdataEdit({
+            values: mangCH[index]
+        })
 
         document.querySelector('#maCH').value = mangCH[index].maCH;
         document.querySelector('#tenCH').value = mangCH[index].tenCH;
         document.querySelector('#giaCH').value = mangCH[index].giaCH;
-        let count = 0;
-            document.querySelector('.modal-body select').selectedIndex  = 0;
+
+        document.querySelector('.modal-body select').selectedIndex  = 0;
     }
 
     const handleUpdateCH = () => {
-        dispatch(editCHAction(data.values))
+        let newValues = {...dataEdit.values};
+        let {value, name} = arrInput;
+
+        arrInput.forEach(item => {
+            newValues[name] = value;
+        })
+        setdataEdit({
+            values: newValues
+        })
+        const editCanHo = {...dataEdit.values};
+        dispatch(editCHAction(editCanHo));
+        console.log(mangCH)
     }
+
+    useEffect(() => {
+        renderListCH();
+    },dataEdit)
 
     const deleteCH = (maCH) => {
         dispatch(deleteCHAction(maCH));
     }
       
     const handleAddCH = () => {
-        const canHo = data.values;
+        const canHo = {...data.values};
         dispatch(addCHAction(canHo));
 
         document.querySelectorAll('.modal-body input').forEach(item => {

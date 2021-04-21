@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Redirect } from 'react-router'
+import { history } from '../../App';
 
 export default function Login() {
 
@@ -32,6 +33,7 @@ export default function Login() {
             console.log(userExist.type);
             
             window.location="/home";
+            history.push('/home');
         }else{
             alert("Username hoặc password sai!!!!");
         }
