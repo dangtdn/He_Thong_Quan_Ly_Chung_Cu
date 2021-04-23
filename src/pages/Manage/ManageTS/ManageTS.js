@@ -14,6 +14,14 @@ export default function ManageTS() {
             tinhTrangTS: "",
         }
     })
+    let [dataEdit, setDataEdit] = useState({
+        values: {
+            maTS: "",
+            tenTS: "",
+            giaTS: "",
+            tinhTrangTS: "",
+        }
+    })
     let arrInput = document.querySelectorAll('form input, form select');
 
 
@@ -82,19 +90,31 @@ export default function ManageTS() {
         document.querySelector('#maTS').disabled = true;
 
         let editTS = mangTS.find(item => item.maTS === maTS);
+        setDataEdit({
+            values: editTS
+        })
 
         arrInput.forEach((item) => {
             const {id} = item;
-            if(id === "tinhTrangTS"){
-                document.getElementById(id).selectedIndex = 0;
-            }else{
-                document.getElementById(id).value = editTS[id];
+            if(document.getElementById(id)) {
+                if(id === "tinhTrangTS"){
+                    document.getElementById(id).selectedIndex = 0;
+                }else{
+                    document.getElementById(id).value = editTS[id];
+                }
             }
         })
     }
 
     const handleUpdateTS = () => {
-        dispatch(editTSAction(data.values))
+        let index = mangTS.findIndex((item) => item.maTS === dataEdit.values.maTS);
+        let editTS = {...mangTS[index]};
+        console.log(editTS);
+        arrInput.forEach(input => {
+            const {id,value} = input;
+            editTS = {...editTS,[id]:value};
+        })
+        dispatch(editTSAction(editTS));
     }
 
     // Hàm reset

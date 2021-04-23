@@ -20,7 +20,7 @@ export const NguoiDungReducer = (state = stateDefault, action) => {
             }else {
                 mangTK_Update.push(action.userTK);
                 register_Update.status = true;
-                console.log(mangTK_Update);
+                alert('Tạo thành công');
             }
             return {...state,mangTK: mangTK_Update, register: register_Update}
         }

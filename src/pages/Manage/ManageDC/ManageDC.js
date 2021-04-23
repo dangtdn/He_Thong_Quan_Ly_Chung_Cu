@@ -19,6 +19,19 @@ export default function ManageDC() {
             maCH: "",
         }
     })
+    let [dataEdit, setDataEdit] = useState({
+        values: {
+            maDC: "",
+            hotenlot: "",
+            ten: "",
+            ngaySinh: "",
+            gioiTinh: "",
+            cmnd: "",
+            sdt: "",
+            ngayChuyenVao: "",
+            maCH: "",
+        }
+    })
     let arrInput = document.querySelectorAll('form input, form select');
 
 
@@ -92,20 +105,32 @@ export default function ManageDC() {
         document.querySelector('#maDC').disabled = true;
 
         let editDC = mangDC.find(item => item.maDC === maDC);
+        setDataEdit({
+            values: editDC
+        })
 
         arrInput.forEach((item) => {
             const {id} = item;
-            if(id === "tinhTrangDC"){
-                document.getElementById(id).selectedIndex = 0;
-            }else{
-                document.getElementById(id).value = editDC[id];
+            if(document.getElementById(id)) {
+                if(id === "tinhTrangDC"){
+                    document.getElementById(id).selectedIndex = 0;
+                }else{
+                    document.getElementById(id).value = editDC[id];
+                }
             }
         })
 
     }
 
     const handleUpdateDC = () => {
-        dispatch(editDCAction(data.values))
+        let index = mangDC.findIndex((item) => item.maDC === dataEdit.values.maDC);
+        let editDC = {...mangDC[index]};
+        console.log(editDC);
+        arrInput.forEach(input => {
+            const {id,value} = input;
+            editDC = {...editDC,[id]:value};
+        })
+        dispatch(editDCAction(editDC));
     }
 
     // Hàm reset

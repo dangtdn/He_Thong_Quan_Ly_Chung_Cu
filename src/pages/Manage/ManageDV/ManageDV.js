@@ -13,6 +13,13 @@ export default function ManageDV() {
             giaDV: ""
         }
     })
+    let [dataEdit, setDataEdit] = useState({
+        values: {
+            maDV: "",
+            tenDV: "",
+            giaDV: ""
+        }
+    })
     let arrInput = document.querySelectorAll('form input, form select');
 
     const {mangDV} = useSelector(state => state.ListReducer)
@@ -79,19 +86,31 @@ export default function ManageDV() {
         document.querySelector('#maDV').disabled = true;
 
         let editDV = mangDV.find(item => item.maDV === maDV);
+        setDataEdit({
+            values: editDV
+        })
 
         arrInput.forEach((item) => {
             const {id} = item;
-            if(id === "tinhTrangDV"){
-                document.getElementById(id).selectedIndex = 0;
-            }else{
-                document.getElementById(id).value = editDV[id];
+            if(document.getElementById(id)) {
+                if(id === "tinhTrangDV"){
+                    document.getElementById(id).selectedIndex = 0;
+                }else{
+                    document.getElementById(id).value = editDV[id];
+                }
             }
         })
     }
 
     const handleUpdateDV = () => {
-        dispatch(editDVAction(data.values))
+        let index = mangDV.findIndex((item) => item.maDV === dataEdit.values.maDV);
+        let editDV = {...mangDV[index]};
+        console.log(editDV);
+        arrInput.forEach(input => {
+            const {id,value} = input;
+            editDV = {...editDV,[id]:value};
+        })
+        dispatch(editDVAction(editDV));
     }
 
     // Hàm reset

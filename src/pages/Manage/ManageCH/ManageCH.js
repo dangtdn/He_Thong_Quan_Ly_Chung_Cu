@@ -15,7 +15,7 @@ function ManageCH(props) {
             tinhTrangCH: "",
         }
     })
-    let [dataEdit, setdataEdit] = useState({
+    let [dataEdit, setDataEdit] = useState({
         values: {
             maCH: "",
             tenCH: "",
@@ -62,9 +62,6 @@ function ManageCH(props) {
         setData({
             values: newValues
         })
-        setdataEdit({
-            values: newValues
-        })
     }
 
     const addCH = () => {
@@ -94,33 +91,31 @@ function ManageCH(props) {
         document.querySelector('#maCH').disabled = true;
 
         let editCH = mangCH.find(item => item.maCH === maCH);
+        setDataEdit({
+            values: editCH
+        })
 
         arrInput.forEach((item) => {
             const {id} = item;
-            if(id === "tinhTrangCH"){
-                document.getElementById(id).selectedIndex = 0;
-            }else{
-                document.getElementById(id).value = editCH[id];
+            if(document.getElementById(id)) {
+                if(id === "tinhTrangCH"){
+                    document.getElementById(id).selectedIndex = 0;
+                }else{
+                    document.getElementById(id).value = editCH[id];
+                }
             }
         })
     }
 
     const handleUpdateCH = () => {
-        console.log(arrInput)
-        let newValues = {...dataEdit};
-        console.log('run',newValues)
-        
-        for (let input of arrInput){
-            const {value, id} = input;
-            newValues = {...newValues,[id]:value}
-        }
-
-        setdataEdit({
-            values: newValues
+        let index = mangCH.findIndex((item) => item.maCH === dataEdit.values.maCH);
+        let editCH = {...mangCH[index]};
+        console.log(editCH);
+        arrInput.forEach(input => {
+            const {id,value} = input;
+            editCH = {...editCH,[id]:value};
         })
-        const editCanHo = dataEdit.values;
-        dispatch(editCHAction(editCanHo));
-        // console.log(mangCH)
+        dispatch(editCHAction(editCH));
     }
 
     // Hàm reset
@@ -160,9 +155,7 @@ function ManageCH(props) {
                             </div>
                             <div className="col-md-6 text-right">
                                 <button className="btn btn-primary" id="btnThem" data-toggle="modal" data-target="#myModal"
-                                onClick={() => {
-                                    addCH()
-                                }}>Thêm căn hộ</button>
+                                onClick={addCH}>Thêm căn hộ</button>
                             </div>
                         </div>
                     </div>

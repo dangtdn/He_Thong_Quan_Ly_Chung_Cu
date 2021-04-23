@@ -38,7 +38,7 @@ export const ListReducer = (state = stateDefault,action) => {
             let mangCH_Update = [...state.mangCH];
 
             let index = mangCH_Update.findIndex(item => item.maCH === action.canHo.maCH);
-            console.log(action.canHo.maCH, index);
+            
             mangCH_Update[index] = {...action.canHo};
             
             return {...state,mangCH:mangCH_Update};
@@ -124,7 +124,7 @@ export const ListReducer = (state = stateDefault,action) => {
             let mangDV_Update = [...state.mangDV];
 
             let index = mangDV_Update.findIndex(item => item.maDV === action.dichVu.maDV);
-            mangDV_Update[index] = {...action.diDVVu};
+            mangDV_Update[index] = {...action.dichVu};
             
             return {...state,mangDV:mangDV_Update};
         }

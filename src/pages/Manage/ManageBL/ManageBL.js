@@ -16,6 +16,16 @@ export default function ManageBL() {
             nguoiLap: "",
         }
     })
+    let [dataEdit, setDataEdit] = useState({
+        values: {
+            maBL: "",
+            soTienThanhToan: 0,
+            maCH: "",
+            thoiGianLap: "",
+            tinhTrangBL: "",
+            nguoiLap: "",
+        }
+    })
     let arrInput = document.querySelectorAll('form input, form select');
 
 
@@ -86,19 +96,31 @@ export default function ManageBL() {
         document.querySelector('#maBL').disabled = true;
 
         let editBL = mangBL.find(item => item.maBL === maBL);
+        setDataEdit({
+            values: editBL
+        })
 
         arrInput.forEach((item) => {
             const {id} = item;
-            if(id === "tinhTrangBL"){
-                document.getElementById(id).selectedIndex = 0;
-            }else{
-                document.getElementById(id).value = editBL[id];
+            if(document.getElementById(id)) {
+                if(id === "tinhTrangBL"){
+                    document.getElementById(id).selectedIndex = 0;
+                }else{
+                    document.getElementById(id).value = editBL[id];
+                }
             }
         })
     }
 
     const handleUpdateBL = () => {
-        dispatch(editBLAction(data.values))
+        let index = mangBL.findIndex((item) => item.maBL === dataEdit.values.maBL);
+        let editBL = {...mangBL[index]};
+        console.log(editBL);
+        arrInput.forEach(input => {
+            const {id,value} = input;
+            editBL = {...editBL,[id]:value};
+        })
+        dispatch(editBLAction(editBL));
     }
 
     // Hàm reset
