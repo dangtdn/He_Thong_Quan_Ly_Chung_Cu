@@ -107,3 +107,10 @@ export const editDVAction = (dichVu) => {
         dichVu: dichVu
     }
 }
+// TAI KHOAN
+export const deleteTKAction = (username) => {
+    return {
+        type: "XOA_TAI_KHOAN",
+        username: username
+    }
+}

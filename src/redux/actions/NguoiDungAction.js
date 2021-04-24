@@ -4,3 +4,9 @@ export const DangKyAction = (userTK) => {
         userTK: userTK
     }
 }
+export const ThayDoiPassAction = (pass) => {
+    return {
+        type: "THAY_DOI_MAT_KHAU",
+        pass: pass
+    }
+}

@@ -1,9 +1,11 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import NavBar from '../../../Components/NavBar/NavBar'
 import { addBLAction, deleteBLAction, editBLAction } from '../../../redux/actions/DataAction'
 
 export default function ManageBL() {
+
+    let [maBL, setMaBL] = useState("");
 
     let [data, setData] = useState({
         title: "Thêm biên lai",
@@ -26,16 +28,28 @@ export default function ManageBL() {
             nguoiLap: "",
         }
     })
+    let [dataPrint, setDataPrint] = useState({
+        values: {
+            maBL: "",
+            soTienThanhToan: 0,
+            maCH: "",
+            tenDC: "",
+            thoiGianLap: "",
+            tinhTrangBL: "",
+            nguoiLap: "",
+        }
+    })
+
     let arrInput = document.querySelectorAll('form input, form select');
 
 
-    const {mangBL} = useSelector(state => state.ListReducer)
+    const { mangBL,mangDC } = useSelector(state => state.ListReducer)
 
     const dispatch = useDispatch();
 
     const renderListBL = () => {
-        return mangBL.map((item,index) => {
-            return <tr key={index}>
+        return mangBL.map((item, index) => {
+            return <tr style={{cursor:"pointer"}} key={index} onClick={() => {selectBL(item.maBL)}}>
                 <td>{item.maBL}</td>
                 <td>{item.soTienThanhToan}</td>
                 <td>{item.maCH}</td>
@@ -43,25 +57,25 @@ export default function ManageBL() {
                 <td>{item.tinhTrangBL}</td>
                 <td>{item.nguoiLap}</td>
                 <td>
-                    <button 
-                    className="btn btn-info mr-2"
-                    data-toggle="modal"
-                    data-target="#myModal"
-                    onClick={() => {
-                        editBL(item.maBL)
-                    }}
+                    <button
+                        className="btn btn-info mr-2"
+                        data-toggle="modal"
+                        data-target="#myModal"
+                        onClick={() => {
+                            editBL(item.maBL)
+                        }}
                     >Sửa</button>
                     <button className="btn btn-danger"
-                    onClick={() => {deleteBL(item.maBL)}}>Xóa</button>
+                        onClick={() => { deleteBL(item.maBL) }}>Xóa</button>
                 </td>
             </tr>
         })
     }
 
     const handleChange = (event) => {
-        const {value, name} = event.target;
+        const { value, name } = event.target;
 
-        let newValues = {...data.values};
+        let newValues = { ...data.values };
         newValues[name] = value;
 
         setData({
@@ -74,11 +88,11 @@ export default function ManageBL() {
             title: "Thêm biên lai"
         })
         document.querySelector('#btnCapNhat').classList.add('hidden');
-        if(document.querySelector('#btnThemBL.hidden')){
+        if (document.querySelector('#btnThemBL.hidden')) {
             document.querySelector('#btnThemBL').classList.remove('hidden');
         }
         document.querySelector('#maBL').disabled = false;
-    
+
     }
 
     const closeModal = () => {
@@ -90,7 +104,7 @@ export default function ManageBL() {
             title: "Chỉnh sửa biên lai"
         })
         document.querySelector('#btnThemBL').classList.add('hidden');
-        if(document.querySelector('#btnCapNhat.hidden')){
+        if (document.querySelector('#btnCapNhat.hidden')) {
             document.querySelector('#btnCapNhat').classList.remove('hidden');
         }
         document.querySelector('#maBL').disabled = true;
@@ -101,35 +115,53 @@ export default function ManageBL() {
         })
 
         arrInput.forEach((item) => {
-            const {id} = item;
-            if(document.getElementById(id)) {
-                if(id === "tinhTrangBL"){
+            const { id } = item;
+            if (document.getElementById(id)) {
+                if (id === "tinhTrangBL") {
                     document.getElementById(id).selectedIndex = 0;
-                }else{
+                } else {
                     document.getElementById(id).value = editBL[id];
                 }
             }
         })
     }
 
+    const selectBL = (maBL) => {
+        setMaBL(maBL)
+    }
+
+    const printBL = () => {
+        if(maBL){
+            const ma = maBL;
+            let newValues = mangBL.find(item => item.maBL === ma);
+            let danCu = mangDC.find(item => item.maCH == newValues.maCH);
+            let hoTenDC = `${danCu.hotenlot} ${danCu.ten}`;
+            console.log(hoTenDC)
+            setDataPrint({
+                values: {...newValues, tenDC:hoTenDC}
+            })   
+        }
+        // console.log('run:',dataPrint.values)
+    }
+
     const handleUpdateBL = () => {
         let index = mangBL.findIndex((item) => item.maBL === dataEdit.values.maBL);
-        let editBL = {...mangBL[index]};
+        let editBL = { ...mangBL[index] };
         console.log(editBL);
         arrInput.forEach(input => {
-            const {id,value} = input;
-            editBL = {...editBL,[id]:value};
+            const { id, value } = input;
+            editBL = { ...editBL, [id]: value };
         })
         dispatch(editBLAction(editBL));
     }
 
     // Hàm reset
     const resetFunc = () => {
-        arrInput.forEach((item,index) => {
-            const {id,value} = item;
-            if(id === 'tinhTrangBL'){
+        arrInput.forEach((item, index) => {
+            const { id, value } = item;
+            if (id === 'tinhTrangBL') {
                 document.getElementById(id).selectedIndex = 0;
-            }else{
+            } else {
                 document.getElementById(id).value = '';
             }
         });
@@ -138,7 +170,7 @@ export default function ManageBL() {
     const deleteBL = (maBL) => {
         dispatch(deleteBLAction(maBL));
     }
-      
+
     const handleAddBL = () => {
         const bienLai = data.values;
         dispatch(addBLAction(bienLai));
@@ -148,7 +180,7 @@ export default function ManageBL() {
     return (
         <div id="content">
             <nav className="navbar navbar-default">
-                <NavBar/>
+                <NavBar />
             </nav>
             <div className="container">
                 <div className="card text-center">
@@ -156,13 +188,17 @@ export default function ManageBL() {
                     <div className="card-header myCardHeader">
                         <div className="row">
                             <div className="col-md-6">
-                              <h3 className="text-left text-primary font-weight-bold">Danh sách biên lai thanh toán</h3>
+                                <h3 className="text-left text-primary font-weight-bold">Danh sách biên lai thanh toán</h3>
                             </div>
                             <div className="col-md-6 text-right">
                                 <button className="btn btn-primary" id="btnThem" data-toggle="modal" data-target="#myModal"
-                                onClick={() => {
-                                    addBL()
-                                }}>Thêm biên lai</button>
+                                    onClick={() => {
+                                        addBL()
+                                    }}>Thêm biên lai</button>
+                                <button className="btn btn-danger ml-3" id="btnThem" data-toggle="modal" data-target="#myModalPrint"
+                                    onClick={() => {
+                                        printBL()
+                                    }}>In biên lai</button>
                             </div>
                         </div>
                     </div>
@@ -211,89 +247,131 @@ export default function ManageBL() {
                 </div>
             </div>
             {/* Modal box */}
-            <div div className = "modal fade" id = "myModal" >
-            <div className="modal-dialog">
-                <div className="modal-content">
-                    <header className="head-form mb-0">
-                        <h2 id="header-title">{data.title}</h2>
-                    </header>
-                    {/* Modal Header */}
-                    {/* 	<div class="modal-header">
-					<h4 class="modal-title" id="modal-title">Modal Heading</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div> */}
-                    {/* Modal body */}
-                    <div className="modal-body">
-                        <form role="form">
-                            <div className="form-group">
-                                <div className="input-group">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text"><i class="fa fa-money-bill-wave"></i></span>
+            <div div className="modal fade" id="myModal" >
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <header className="head-form mb-0">
+                            <h2 id="header-title">{data.title}</h2>
+                        </header>
+                        {/* Modal body */}
+                        <div className="modal-body">
+                            <form role="form">
+                                <div className="form-group">
+                                    <div className="input-group">
+                                        <div className="input-group-prepend">
+                                            <span className="input-group-text"><i class="fa fa-money-bill-wave"></i></span>
+                                        </div>
+                                        <input type="text" name="maBL" id="maBL" onChange={handleChange} className="form-control input-sm" placeholder="Mã biên lai" />
                                     </div>
-                                    <input type="text" name="maBL" id="maBL" onChange={handleChange} className="form-control input-sm" placeholder="Mã biên lai" />
+                                    <span className="sp-thongbao" id="tbMaBL" />
                                 </div>
-                                <span className="sp-thongbao" id="tbMaBL" />
-                            </div>
-                            <div className="form-group">
-                                <div className="input-group">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text"><i class="fa fa-money-bill-wave"></i></span>
+                                <div className="form-group">
+                                    <div className="input-group">
+                                        <div className="input-group-prepend">
+                                            <span className="input-group-text"><i class="fa fa-money-bill-wave"></i></span>
+                                        </div>
+                                        <input type="text" name="soTienThanhToan" id="soTienThanhToan" onChange={handleChange} className="form-control input-sm" placeholder="Số tiền thanh toán" />
                                     </div>
-                                    <input type="text" name="soTienThanhToan" id="soTienThanhToan" onChange={handleChange} className="form-control input-sm" placeholder="Số tiền thanh toán" />
+                                    <span className="sp-thongbao" id="tbSoTienThanhToan" />
                                 </div>
-                                <span className="sp-thongbao" id="tbSoTienThanhToan" />
-                            </div>
-                            <div className="form-group">
-                                <div className="input-group">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text"><i class="fa fa-circle"></i></span>
+                                <div className="form-group">
+                                    <div className="input-group">
+                                        <div className="input-group-prepend">
+                                            <span className="input-group-text"><i class="fa fa-circle"></i></span>
+                                        </div>
+                                        <input type="text" name="maCH" id="maCH" onChange={handleChange} className="form-control" placeholder="Mã căn hộ" />
                                     </div>
-                                    <input type="text" name="maCH" id="maCH" onChange={handleChange} className="form-control" placeholder="Mã căn hộ" />
+                                    <span className="sp-thongbao" id="tbMaCH" />
                                 </div>
-                                <span className="sp-thongbao" id="tbMaCH" />
-                            </div>
-                            <div className="form-group">
-                                <div className="input-group">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text"><i className="fa fa-calendar" /></span>
+                                <div className="form-group">
+                                    <div className="input-group">
+                                        <div className="input-group-prepend">
+                                            <span className="input-group-text"><i className="fa fa-calendar" /></span>
+                                        </div>
+                                        <input type="text" name="thoiGianLap" id="thoiGianLap" onChange={handleChange} className="form-control" placeholder="Ngày lập" />
                                     </div>
-                                    <input type="text" name="thoiGianLap" id="thoiGianLap" onChange={handleChange} className="form-control" placeholder="Ngày lập" />
+                                    <span className="sp-thongbao" id="tbThoiGianLap" />
                                 </div>
-                                <span className="sp-thongbao" id="tbThoiGianLap" />
-                            </div>
-                            <div className="form-group">
-                                <div className="input-group">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text"><i class="fa fa-clipboard-list"></i></span>
+                                <div className="form-group">
+                                    <div className="input-group">
+                                        <div className="input-group-prepend">
+                                            <span className="input-group-text"><i class="fa fa-clipboard-list"></i></span>
+                                        </div>
+                                        <select className="form-control" id="tinhTrangBL" onChange={handleChange} name="tinhTrangBL">
+                                            <option>Chọn tình trạng</option>
+                                            <option value="Hoàn tất">Hoàn tất</option>
+                                            <option value="Chưa thanh toán">Chưa thanh toán</option>
+                                        </select>
                                     </div>
-                                    <select className="form-control" id="tinhTrangBL" onChange={handleChange} name="tinhTrangBL">
-                                        <option>Chọn tình trạng</option>
-                                        <option value="Hoàn tất">Hoàn tất</option>
-                                        <option value="Chưa thanh toán">Chưa thanh toán</option>
-                                    </select>
+                                    <span className="sp-thongbao" id="tbTinhTrangBL" />
                                 </div>
-                                <span className="sp-thongbao" id="tbTinhTrangBL" />
-                            </div>
-                            <div className="form-group">
-                                <div className="input-group">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text"><i className="fa fa-user" /></span>
+                                <div className="form-group">
+                                    <div className="input-group">
+                                        <div className="input-group-prepend">
+                                            <span className="input-group-text"><i className="fa fa-user" /></span>
+                                        </div>
+                                        <input type="text" name="nguoiLap" id="nguoiLap" onChange={handleChange} className="form-control input-sm" placeholder="Người lập" />
                                     </div>
-                                    <input type="text" name="nguoiLap" id="nguoiLap" onChange={handleChange} className="form-control input-sm" placeholder="Người lập" />
+                                    <span className="sp-thongbao" id="tbNguoiLap" />
                                 </div>
-                                <span className="sp-thongbao" id="tbNguoiLap" />
-                            </div>
-                        </form>
-                    </div>
-                    {/* Modal footer */}
-                    <div className="modal-footer" id="modal-footer">
-                        <button id="btnThemBL" type="button" className="btn btn-success" onClick={handleAddBL}>Thêm</button>
-                        <button id="btnCapNhat" type="button" className="btn btn-success" onClick={handleUpdateBL}>Cập nhật</button>
-                        <button id="btnDong" type="button" className="btn btn-danger" onClick={closeModal}  data-dismiss="modal">Đóng</button>
+                            </form>
+                        </div>
+                        {/* Modal footer */}
+                        <div className="modal-footer" id="modal-footer">
+                            <button id="btnThemBL" type="button" className="btn btn-success" onClick={handleAddBL}>Thêm</button>
+                            <button id="btnCapNhat" type="button" className="btn btn-success" onClick={handleUpdateBL}>Cập nhật</button>
+                            <button id="btnDong" type="button" className="btn btn-danger" onClick={closeModal} data-dismiss="modal">Đóng</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            
+            {/* Modal box Print */}
+            <div div className="modal fade" id="myModalPrint" >
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <header className="head-form mb-0">
+                            <h2 id="header-title">Bảng xem trước biên lai thanh toán</h2>
+                        </header>
+                        {/* Modal body */}
+                        <div className="modal-body">
+                            <p>
+                                <span class="text-dark font-weight-bold mr-3">Mã số biên lai: </span>
+                                <span class="text-dark">{dataPrint.values.maBL}</span>
+                            </p>
+                            <p>
+                                <span class="text-dark font-weight-bold mr-3">Mã căn hộ: </span>
+                                <span class="text-dark">{dataPrint.values.maCH}</span>
+                            </p>
+                            <p>
+                                <span class="text-dark font-weight-bold mr-3">Người ở căn hộ: </span>
+                                <span class="text-dark">{dataPrint.values.tenDC}</span>
+                            </p>
+                            <p>
+                                <span class="text-dark font-weight-bold mr-3">Người lập: </span>
+                                <span class="text-dark">{dataPrint.values.nguoiLap}</span>
+                            </p>
+                            <p>
+                                <span class="text-dark font-weight-bold mr-3">Ngày lập: </span>
+                                <span class="text-dark">{dataPrint.values.thoiGianLap}</span>
+                            </p>
+                            <p>
+                                <span class="text-dark font-weight-bold mr-3">Tình trạng: </span>
+                                <span class="text-dark">{dataPrint.values.tinhTrangBL}</span>
+                            </p>
+                            <p>
+                                <span class="text-dark font-weight-bold mr-3">Số tiền thanh toán: </span>
+                                <span class="text-dark">{dataPrint.values.soTienThanhToan} VNĐ</span>
+                            </p>
+                        </div>
+                        {/* Modal footer */}
+                        <div className="modal-footer" id="modal-footer">
+                            <button id="btnCapNhat" type="button" className="btn btn-success" onClick={handleUpdateBL}>In biên lai</button>
+                            <button id="btnDong" type="button" className="btn btn-danger" data-dismiss="modal">Đóng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

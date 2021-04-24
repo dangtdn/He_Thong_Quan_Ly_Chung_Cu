@@ -3,13 +3,15 @@ import danCu from '../../assets/data/danCu.json'
 import dichVu from '../../assets/data/dichVu.json'
 import taiSan from '../../assets/data/taiSan.json'
 import bienLaiThanhToan from '../../assets/data/bienLaiThanhToan.json'
+import taiKhoan from '../../assets/data/taiKhoan.json'
 
 const stateDefault = {
     mangCH: canHo,
     mangDC: danCu,
     mangDV: dichVu,
     mangTS: taiSan,
-    mangBL: bienLaiThanhToan
+    mangBL: bienLaiThanhToan,
+    mangTK: taiKhoan
 };
 
 export const ListReducer = (state = stateDefault,action) => {
@@ -155,6 +157,30 @@ export const ListReducer = (state = stateDefault,action) => {
             mangBL_Update[index] = {...action.bienLai};
             
             return {...state,mangBL:mangBL_Update};
+        }
+        // TAI KHOAN
+        case "XOA_TAI_KHOAN": {
+            let mangTK_Update = [...state.mangTK];
+
+            mangTK_Update = mangTK_Update.filter(item => item.username !== action.username);
+            alert('Đã xóa thành công');
+            
+            return {...state,mangTK:mangTK_Update};
+        }
+        case "DANG_KY": {
+            let mangTK_Update = [...state.mangTK];
+            let register_Update = {...state.register};
+
+            const index = mangTK_Update.findIndex(item => item.username == action.userTK.username);
+            if(index !== -1) {
+                alert('Tài khoản đã tồn tại!!!');
+                register_Update.status = false;
+            }else {
+                mangTK_Update.push(action.userTK);
+                register_Update.status = true;
+                alert('Tạo thành công');
+            }
+            return {...state,mangTK: mangTK_Update, register: register_Update}
         }
         default: return {...state}
     }

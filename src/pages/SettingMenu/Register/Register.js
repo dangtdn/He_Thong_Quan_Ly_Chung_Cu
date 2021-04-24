@@ -14,7 +14,6 @@ export default function Register() {
     })
 
     const dispatch = useDispatch();
-    const {register} = useSelector(state => state.NguoiDungReducer);
 
     const handleChange = (event) => {
         let {value, name} = event.target;
@@ -32,7 +31,6 @@ export default function Register() {
         event.preventDefault();
 
         const userTK = {...dataRegister.values};
-        console.log(userTK);
 
         dispatch(DangKyAction(userTK))
     }

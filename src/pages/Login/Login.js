@@ -32,7 +32,7 @@ export default function Login() {
             }));
             console.log(userExist.type);
             
-            window.location="/home";
+            // window.location="/home";
             history.push('/home');
         }else{
             alert("Username hoặc password sai!!!!");

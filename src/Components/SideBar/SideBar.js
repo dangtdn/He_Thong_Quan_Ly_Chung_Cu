@@ -55,6 +55,9 @@ export default function SideBar() {
                             <li>
                                 <NavLink to="/bienlai">Biên lai</NavLink>
                             </li>
+                            <li>
+                                <NavLink to="/taikhoan">Tài khoản</NavLink>
+                            </li>
                         </ul>
                     </li>
                     <li>

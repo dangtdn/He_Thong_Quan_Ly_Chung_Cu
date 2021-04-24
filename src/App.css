@@ -395,6 +395,10 @@ ul.CTAs a {
     max-height: 500px;
     overflow-y: auto;
 }
+ 
+.linkActive {
+    background: #7a7c7b;
+}
 
 .myCardHeader, .myCardFooter{
     background-color: transparent;       

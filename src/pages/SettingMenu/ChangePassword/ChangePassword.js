@@ -1,7 +1,36 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import NavBar from '../../../Components/NavBar/NavBar'
+import { ThayDoiPassAction } from '../../../redux/actions/NguoiDungAction';
 
 export default function ChangePassword() {
+
+    let [dataChangePass, setDataChangePass] = useState({
+        password: ""
+    })
+
+    const mangTK = useSelector(state => state.ListReducer);
+    const dispatch = useDispatch;
+
+    const handleChange = (event) => {
+        let {value} = event.target;
+
+        let newPass = value;
+
+        setDataChangePass({
+            values: newPass
+        })
+        console.log(newPass);
+    }
+
+    const changePassUser = (event) => {
+        event.preventDefault();
+
+        const pass = {...dataChangePass.password};
+
+        dispatch(ThayDoiPassAction(pass));
+    }
+
     return (
         <div id="content">
             <nav className="navbar navbar-default">
@@ -10,7 +39,7 @@ export default function ChangePassword() {
             <div className="container">
                 <div className="box-profile px-3 px-md-5 py-4 shadow">
                     <h3 className="text-center my-3">THAY ĐỔI MẬT KHẨU</h3>
-                    <form className="w-100 p-0 m-0 shadow-none" style={{background:"none"}}>
+                    <form onSubmit={changePassUser} className="w-100 p-0 m-0 shadow-none" style={{background:"none"}}>
                         <div className="form-group row px-3 px-lg-5">
                             <label className="col-lg-3 col-form-label" htmlFor="inputName">
                                 Password:
@@ -21,7 +50,7 @@ export default function ChangePassword() {
                             <label className="col-lg-3 col-form-label" htmlFor="inputMaSV">
                                 New password 1:
                                     </label>
-                            <input className="form-control col-lg-9" type="password" name="password1" id="password1" placeholder="Nhập password mới..."/>
+                            <input onChange={handleChange} className="form-control col-lg-9" type="password" name="password1" id="password1" placeholder="Nhập password mới..."/>
                         </div>
                         <div className="form-group row px-3 px-lg-5">
                             <label className="col-lg-3 col-form-label" htmlFor="inputMaSV">

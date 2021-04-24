@@ -10,7 +10,7 @@
     {
         "maBL": "2",
         "soTienThanhToan": 800,
-        "maCH": "5",
+        "maCH": "2",
         "thoiGianLap": "30/09/2020",
         "tinhTrangBL": "hoàn tất",
         "nguoiLap": "admin"
@@ -35,6 +35,14 @@
         "maBL": "5",
         "soTienThanhToan": 100,
         "maCH": "7",
+        "thoiGianLap": "11/11/2020",
+        "tinhTrangBL": "hoàn tất",
+        "nguoiLap": "admin"
+    },
+    {
+        "maBL": "6",
+        "soTienThanhToan": 100,
+        "maCH": "1",
         "thoiGianLap": "11/11/2020",
         "tinhTrangBL": "hoàn tất",
         "nguoiLap": "admin"

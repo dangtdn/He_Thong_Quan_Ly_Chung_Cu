@@ -18,6 +18,7 @@ import { UserDVTemplate } from './templates/UserDVTemplate';
 import { UserTSTemplate } from './templates/UserTSTemplate';
 //import history 
 import {createBrowserHistory} from 'history'
+import ManageTK from './pages/Manage/MangeTK/ManageTK';
 //Đối tượng giúp chuyển hướng trang bất kì file nào 
 export const history =  createBrowserHistory();
 
@@ -39,6 +40,7 @@ function App() {
           <AdminTemplate exact path="/taisan" Component={ManageTS}/>
           <AdminTemplate exact path="/bienlai" Component={ManageBL}/>
           <AdminTemplate exact path="/dichvu" Component={ManageDV}/>
+          <AdminTemplate exact path="/taikhoan" Component={ManageTK}/>
           <AdminTemplate exact path="/" Component={Home}/>
         </Switch>
       )
