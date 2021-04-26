@@ -1,34 +1,35 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import NavBar from '../../../Components/NavBar/NavBar'
 import { ThayDoiPassAction } from '../../../redux/actions/NguoiDungAction';
 
 export default function ChangePassword() {
+    
+    const {username,password} = (!localStorage.getItem("user")) ? {username: "", password: ""} : JSON.parse(localStorage.getItem("user"));
 
     let [dataChangePass, setDataChangePass] = useState({
-        password: ""
+        passwordOld: password,
+        passwordNew: ""
     })
-
-    const mangTK = useSelector(state => state.ListReducer);
-    const dispatch = useDispatch;
-
+    
+    const {mangTK} = useSelector(state => state.ListReducer);
+    const dispatch = useDispatch();
+    
     const handleChange = (event) => {
         let {value} = event.target;
-
         let newPass = value;
 
         setDataChangePass({
-            values: newPass
+            passwordNew: newPass
         })
-        console.log(newPass);
     }
 
     const changePassUser = (event) => {
         event.preventDefault();
 
-        const pass = {...dataChangePass.password};
-
-        dispatch(ThayDoiPassAction(pass));
+        const taiKhoanNew = mangTK.find(item => item.username === username);
+        taiKhoanNew.password = dataChangePass.passwordNew;
+        dispatch(ThayDoiPassAction(taiKhoanNew));
     }
 
     return (
@@ -44,7 +45,7 @@ export default function ChangePassword() {
                             <label className="col-lg-3 col-form-label" htmlFor="inputName">
                                 Password:
                                     </label>
-                            <input className="form-control col-lg-9" type="password" name="username" id="username" value="123456" disabled/>
+                            <input className="form-control col-lg-9" type="password" name="username" id="username" value={dataChangePass.passwordOld} disabled/>
                         </div>
                         <div className="form-group row px-3 px-lg-5">
                             <label className="col-lg-3 col-form-label" htmlFor="inputMaSV">

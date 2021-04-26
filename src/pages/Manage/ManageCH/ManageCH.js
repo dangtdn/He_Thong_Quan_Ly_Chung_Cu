@@ -140,6 +140,14 @@ function ManageCH(props) {
         resetFunc();
     }
 
+    const handleSearch = (event) => {
+        let {value} = event.target;
+        let mangCHSearch = mangCH.filter(canHo => {
+            return canHo.tenCH.includes(value);
+        });
+        console.log(mangCHSearch)
+    }
+
     return (
         <div id="content">
             <nav className="navbar navbar-default">
@@ -164,7 +172,7 @@ function ManageCH(props) {
                         <div className="row mb-3">
                             <div className="col">
                                 <div className="input-group">
-                                    <input type="text" className="form-control" placeholder="Tên nhân viên" id="searchName" />
+                                    <input onChange={handleSearch} type="text" className="form-control" placeholder="Tên căn hộ" id="searchName" />
                                     <div className="input-group-prepend">
                                         <span className="input-group-text" id="btnTimNV"><i className="fa fa-search" /></span>
                                     </div>

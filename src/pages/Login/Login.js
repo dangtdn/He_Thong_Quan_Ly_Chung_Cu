@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Redirect } from 'react-router'
 import { history } from '../../App';
 
 export default function Login() {
@@ -13,10 +12,9 @@ export default function Login() {
     })
 
     const {mangTK} = useSelector(state => state.NguoiDungReducer);
-    // const [listUser, setUser] = useState(taiKhoan)
 
     const submitLogin = (event) => {
-        event.preventDefault();
+        // event.preventDefault();
         const {username, password} = data.values;
         console.log(mangTK)
         const userExist = mangTK.find((user, index) => {
@@ -27,12 +25,13 @@ export default function Login() {
 
         if(userExist){
             localStorage.setItem("user", JSON.stringify({
+                username: userExist.username,
+                password: userExist.password,
                 type: userExist.type,
                 isLogin: true
             }));
             console.log(userExist.type);
             
-            // window.location="/home";
             history.push('/home');
         }else{
             alert("Username hoặc password sai!!!!");

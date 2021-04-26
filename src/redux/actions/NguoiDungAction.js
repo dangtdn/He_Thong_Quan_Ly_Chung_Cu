@@ -4,9 +4,11 @@ export const DangKyAction = (userTK) => {
         userTK: userTK
     }
 }
-export const ThayDoiPassAction = (pass) => {
+export const ThayDoiPassAction = (taiKhoanNew) => {
     return {
         type: "THAY_DOI_MAT_KHAU",
-        pass: pass
+        // pass: pass,
+        // username: username
+        taiKhoanNew: taiKhoanNew
     }
 }

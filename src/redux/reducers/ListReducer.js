@@ -31,8 +31,11 @@ export const ListReducer = (state = stateDefault,action) => {
         case "XOA_CAN_HO": {
             let mangCH_Update = [...state.mangCH];
 
-            mangCH_Update = mangCH_Update.filter(item => item.maCH !== action.maCH);
-            alert('Đã xóa thành công');
+            let isDelete = window.confirm(`Bạn có muốn xóa căn hộ có mã căn hộ ${action.maCH} không?`);
+            if(isDelete){
+                mangCH_Update = mangCH_Update.filter(item => item.maCH !== action.maCH);
+                alert(`Đã xóa thành công xóa căn hộ có mã căn hộ: ${action.maCH}`);
+            }
             
             return {...state,mangCH:mangCH_Update};
         }
@@ -59,9 +62,12 @@ export const ListReducer = (state = stateDefault,action) => {
         }
         case "XOA_DAN_CU": {
             let mangDC_Update = [...state.mangDC];
-
-            mangDC_Update = mangDC_Update.filter(item => item.maDC !== action.maDC);
-            alert('Đã xóa thành công');
+            
+            let isDelete = window.confirm(`Bạn có muốn xóa dân cư có mã dân cư ${action.maDC} không?`);
+            if(isDelete){
+                mangDC_Update = mangDC_Update.filter(item => item.maDC !== action.maDC);
+                alert(`Đã xóa thành công xóa dân cư có mã dân cư: ${action.maDC}`);
+            }
             
             return {...state,mangDC:mangDC_Update};
         }
@@ -87,9 +93,12 @@ export const ListReducer = (state = stateDefault,action) => {
         }
         case "XOA_TAI_SAN": {
             let mangTS_Update = [...state.mangTS];
-
-            mangTS_Update = mangTS_Update.filter(item => item.maTS !== action.maTS);
-            alert('Đã xóa thành công');
+            
+            let isDelete = window.confirm(`Bạn có muốn xóa tài sản có mã tài sản ${action.maTS} không?`);
+            if(isDelete){
+                mangTS_Update = mangTS_Update.filter(item => item.maTS !== action.maTS);
+                alert(`Đã xóa thành công xóa tài sản có mã tài sản: ${action.maTS}`);
+            }
             
             return {...state,mangTS:mangTS_Update};
         }
@@ -116,9 +125,12 @@ export const ListReducer = (state = stateDefault,action) => {
         }
         case "XOA_DICH_VU": {
             let mangDV_Update = [...state.mangDV];
-
-            mangDV_Update = mangDV_Update.filter(item => item.maDV !== action.maDV);
-            alert('Đã xóa thành công');
+            
+            let isDelete = window.confirm(`Bạn có muốn xóa dịch vụ có mã dịch vụ ${action.maDV} không?`);
+            if(isDelete){
+                mangDV_Update = mangDV_Update.filter(item => item.maDV !== action.maDV);
+                alert(`Đã xóa thành công xóa dịch vụ có mã dịch vụ: ${action.maDV}`);
+            }
             
             return {...state,mangDV:mangDV_Update};
         }
@@ -144,9 +156,12 @@ export const ListReducer = (state = stateDefault,action) => {
         }
         case "XOA_BIEN_LAI": {
             let mangBL_Update = [...state.mangBL];
-
-            mangBL_Update = mangBL_Update.filter(item => item.maBL !== action.maBL);
-            alert('Đã xóa thành công');
+            
+            let isDelete = window.confirm(`Bạn có muốn xóa biên lai có mã biên lai ${action.maBL} không?`);
+            if(isDelete){
+                mangBL_Update = mangBL_Update.filter(item => item.maBL !== action.maBL);
+                alert(`Đã xóa thành công xóa biên lai có mã biên lai: ${action.maBL}`);
+            }
             
             return {...state,mangBL:mangBL_Update};
         }
@@ -161,9 +176,12 @@ export const ListReducer = (state = stateDefault,action) => {
         // TAI KHOAN
         case "XOA_TAI_KHOAN": {
             let mangTK_Update = [...state.mangTK];
-
-            mangTK_Update = mangTK_Update.filter(item => item.username !== action.username);
-            alert('Đã xóa thành công');
+            
+            let isDelete = window.confirm(`Bạn có muốn xóa tài khoản có username ${action.username} không?`);
+            if(isDelete){
+                mangTK_Update = mangTK_Update.filter(item => item.username !== action.username);
+                alert(`Đã xóa thành công xóa tài khoản có username: ${action.username}`);
+            }
             
             return {...state,mangTK:mangTK_Update};
         }
@@ -181,6 +199,14 @@ export const ListReducer = (state = stateDefault,action) => {
                 alert('Tạo thành công');
             }
             return {...state,mangTK: mangTK_Update, register: register_Update}
+        }
+        case "THAY_DOI_MAT_KHAU": {
+            let mangTK_Update = [...state.mangTK];
+            
+            let index = mangTK_Update.findIndex(item => item.username = action.taiKhoanNew.username);
+            mangTK_Update[index].password = action.taiKhoanNew.password;
+            alert("Đã thay đổi mật khẩu thành công");
+            return {...state,mangTK: mangTK_Update}
         }
         default: return {...state}
     }
