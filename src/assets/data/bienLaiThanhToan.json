@@ -46,5 +46,85 @@
         "thoiGianLap": "11/11/2020",
         "tinhTrangBL": "hoàn tất",
         "nguoiLap": "admin"
+    },
+    {
+        "maBL": "7",
+        "soTienThanhToan": 100,
+        "maCH": "7",
+        "thoiGianLap": "16/11/2020",
+        "tinhTrangBL": "hoàn tất",
+        "nguoiLap": "admin"
+    },
+    {
+        "maBL": "8",
+        "soTienThanhToan": 100,
+        "maCH": "1",
+        "thoiGianLap": "11/09/2020",
+        "tinhTrangBL": "hoàn tất",
+        "nguoiLap": "admin"
+    },
+    {
+        "maBL": "9",
+        "soTienThanhToan": 100,
+        "maCH": "7",
+        "thoiGianLap": "15/11/2020",
+        "tinhTrangBL": "hoàn tất",
+        "nguoiLap": "admin"
+    },
+    {
+        "maBL": "10",
+        "soTienThanhToan": 100,
+        "maCH": "1",
+        "thoiGianLap": "22/11/2020",
+        "tinhTrangBL": "hoàn tất",
+        "nguoiLap": "admin"
+    },
+    {
+        "maBL": "11",
+        "soTienThanhToan": 100,
+        "maCH": "7",
+        "thoiGianLap": "22/10/2020",
+        "tinhTrangBL": "hoàn tất",
+        "nguoiLap": "admin"
+    },
+    {
+        "maBL": "12",
+        "soTienThanhToan": 100,
+        "maCH": "1",
+        "thoiGianLap": "11/11/2020",
+        "tinhTrangBL": "hoàn tất",
+        "nguoiLap": "admin"
+    },
+    {
+        "maBL": "13",
+        "soTienThanhToan": 100,
+        "maCH": "7",
+        "thoiGianLap": "11/11/2020",
+        "tinhTrangBL": "hoàn tất",
+        "nguoiLap": "admin"
+    },
+    {
+        "maBL": "14",
+        "soTienThanhToan": 100,
+        "maCH": "1",
+        "thoiGianLap": "07/11/2020",
+        "tinhTrangBL": "hoàn tất",
+        "nguoiLap": "admin"
+    },
+    {
+        "maBL": "15",
+        "soTienThanhToan": 100,
+        "maCH": "7",
+        "thoiGianLap": "11/11/2020",
+        "tinhTrangBL": "hoàn tất",
+        "nguoiLap": "admin"
+    },
+    {
+        "maBL": "16",
+        "soTienThanhToan": 100,
+        "maCH": "1",
+        "thoiGianLap": "01/11/2020",
+        "tinhTrangBL": "hoàn tất",
+        "nguoiLap": "admin"
     }
 ]

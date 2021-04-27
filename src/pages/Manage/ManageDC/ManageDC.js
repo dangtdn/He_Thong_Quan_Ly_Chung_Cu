@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import NavBar from '../../../Components/NavBar/NavBar'
 import { addDCAction, deleteDCAction, editDCAction } from '../../../redux/actions/DataAction'
@@ -32,6 +32,9 @@ export default function ManageDC() {
             maCH: "",
         }
     })
+
+    let [mangDCSearch, setMangDCSearch] = useState([]);
+
     let arrInput = document.querySelectorAll('form input, form select');
 
 
@@ -39,8 +42,12 @@ export default function ManageDC() {
 
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        setMangDCSearch(mangDC)
+    }, []);
+
     const renderListDC = () => {
-        return mangDC.map((item,index) => {
+        return mangDCSearch.map((item,index) => {
             return <tr key={index}>
                 <td>{item.maDC}</td>
                 <td>{item.hotenlot}</td>
@@ -156,6 +163,14 @@ export default function ManageDC() {
         resetFunc();
     }
 
+    const handleSearch = (event) => {
+        let {value} = event.target;
+        if(value == "") setMangDCSearch(mangDC);
+        else setMangDCSearch(mangDC.filter(danCu => {
+            return danCu.ten.includes(value);
+        }));
+    }
+
     return (
         <div id="content">
             <nav className="navbar navbar-default">
@@ -182,7 +197,7 @@ export default function ManageDC() {
                         <div className="row mb-3">
                             <div className="col">
                                 <div className="input-group">
-                                    <input type="text" className="form-control" placeholder="Tên dân cư" id="searchName" />
+                                    <input onKeyUp={handleSearch} type="text" className="form-control" placeholder="Tên dân cư" id="searchName" />
                                     <div className="input-group-prepend">
                                         <span className="input-group-text" id="btnTimNV"><i className="fa fa-search" /></span>
                                     </div>

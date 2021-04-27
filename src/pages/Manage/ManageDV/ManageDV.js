@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import NavBar from '../../../Components/NavBar/NavBar'
 import { addDVAction, deleteDVAction, editDVAction } from '../../../redux/actions/DataAction'
@@ -20,14 +20,21 @@ export default function ManageDV() {
             giaDV: ""
         }
     })
+
+    let [mangDVSearch, setMangDVSearch] = useState([]);
+    
     let arrInput = document.querySelectorAll('form input, form select');
 
     const {mangDV} = useSelector(state => state.ListReducer)
 
     const dispatch = useDispatch();
+    
+    useEffect(() => {
+        setMangDVSearch(mangDV)
+    }, []);
 
     const renderListDV = () => {
-        return mangDV.map((item,index) => {
+        return mangDVSearch.map((item,index) => {
             return <tr key={index}>
                 <td>{item.maDV}</td>
                 <td>{item.tenDV}</td>
@@ -136,6 +143,14 @@ export default function ManageDV() {
         resetFunc();
     }
 
+    const handleSearch = (event) => {
+        let {value} = event.target;
+        if(value == "") setMangDVSearch(mangDV);
+        else setMangDVSearch(mangDV.filter(dichVu => {
+            return dichVu.tenDV.includes(value);
+        }));
+    }
+
     return (
         <div id="content">
             <nav className="navbar navbar-default">
@@ -162,7 +177,7 @@ export default function ManageDV() {
                         <div className="row mb-3">
                             <div className="col">
                                 <div className="input-group">
-                                    <input type="text" className="form-control" placeholder="Tên dịch vụ" id="searchName" />
+                                    <input onKeyUp={handleSearch} type="text" className="form-control" placeholder="Tên dịch vụ" id="searchName" />
                                     <div className="input-group-prepend">
                                         <span className="input-group-text" id="btnTimNV"><i className="fa fa-search" /></span>
                                     </div>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import NavBar from '../../../Components/NavBar/NavBar'
 import { addTSAction, deleteTSAction, editTSAction } from '../../../redux/actions/DataAction'
@@ -22,6 +22,9 @@ export default function ManageTS() {
             tinhTrangTS: "",
         }
     })
+
+    let [mangTSSearch, setMangTSSearch] = useState([]);
+    
     let arrInput = document.querySelectorAll('form input, form select');
 
 
@@ -29,8 +32,12 @@ export default function ManageTS() {
 
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        setMangTSSearch(mangTS)
+    }, []);
+
     const renderListTS = () => {
-        return mangTS.map((item,index) => {
+        return mangTSSearch.map((item,index) => {
             return <tr key={index}>
                 <td>{item.maTS}</td>
                 <td>{item.tenTS}</td>
@@ -140,6 +147,14 @@ export default function ManageTS() {
         resetFunc();
     }
 
+    const handleSearch = (event) => {
+        let {value} = event.target;
+        if(value == "") setMangTSSearch(mangTS);
+        else setMangTSSearch(mangTS.filter(taiSan => {
+            return taiSan.tenTS.includes(value);
+        }));
+    }
+
     return (
         <div id="content">
             <nav className="navbar navbar-default">
@@ -166,7 +181,7 @@ export default function ManageTS() {
                         <div className="row mb-3">
                             <div className="col">
                                 <div className="input-group">
-                                    <input type="text" className="form-control" placeholder="Tên tài sản" id="searchName" />
+                                    <input onKeyUp={handleSearch} type="text" className="form-control" placeholder="Tên tài sản" id="searchName" />
                                     <div className="input-group-prepend">
                                         <span className="input-group-text" id="btnTimNV"><i className="fa fa-search" /></span>
                                     </div>

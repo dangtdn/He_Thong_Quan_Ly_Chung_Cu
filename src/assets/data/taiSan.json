@@ -1,19 +1,19 @@
 [
     {
         "maTS" : "1",
-        "tenTS": "TS001",
+        "tenTS": "BS021",
         "giaTS": "1000",
         "tinhTrangTS": "tốt"
     },
     {
         "maTS" : "2",
-        "tenTS": "TS002",
+        "tenTS": "TS502",
         "giaTS": "2000",
         "tinhTrangTS": "hư hỏng"
     },
     {
         "maTS" : "3",
-        "tenTS": "TS003",
+        "tenTS": "BS403",
         "giaTS": "3000",
         "tinhTrangTS": "mất"
     },

@@ -8,11 +8,17 @@ import { addCHAction, deleteCHAction, deleteTKAction, editCHAction } from '../..
 export default function ManageTK() {
 
     const {mangTK} = useSelector(state => state.ListReducer)
-    // console.log(mangCH);
+
+    let [mangTKSearch, setMangTKSearch] = useState([]);
+    
     const dispatch = useDispatch();
 
-    const renderListCH = () => {
-        return mangTK.map((item,index) => {
+    useEffect(() => {
+        setMangTKSearch(mangTK)
+    }, []);
+
+    const renderListTK = () => {
+        return mangTKSearch.map((item,index) => {
             const type = getChucVu(item.type);
             return <tr key={index}>
                 <td>{index + 1}</td>
@@ -45,6 +51,14 @@ export default function ManageTK() {
     const deleteCH = (username) => {
         dispatch(deleteTKAction(username));
     }
+
+    const handleSearch = (event) => {
+        let {value} = event.target;
+        if(value == "") setMangTKSearch(mangTK);
+        else setMangTKSearch(mangTK.filter(taiKhoan => {
+            return taiKhoan.username.includes(value);
+        }));
+    }
  
     return (
         <div id="content">
@@ -69,7 +83,7 @@ export default function ManageTK() {
                         <div className="row mb-3">
                             <div className="col">
                                 <div className="input-group">
-                                    <input type="text" className="form-control" placeholder="Tên username" id="searchName" />
+                                    <input onKeyUp={handleSearch} type="text" className="form-control" placeholder="Tên username" id="searchName" />
                                     <div className="input-group-prepend">
                                         <span className="input-group-text" id="btnTimNV"><i className="fa fa-search" /></span>
                                     </div>
@@ -92,7 +106,7 @@ export default function ManageTK() {
                                     </tr>
                                 </thead>
                                 <tbody id="tableDanhSach">
-                                    {renderListCH()}
+                                    {renderListTK()}
                                 </tbody>
                             </table>
                         </div>

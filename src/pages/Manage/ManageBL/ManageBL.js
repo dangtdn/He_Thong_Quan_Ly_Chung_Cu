@@ -40,6 +40,8 @@ export default function ManageBL() {
         }
     })
 
+    let [mangBLSearch, setMangBLSearch] = useState([]);
+
     let arrInput = document.querySelectorAll('form input, form select');
 
 
@@ -47,8 +49,12 @@ export default function ManageBL() {
 
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        setMangBLSearch(mangBL)
+    }, []);
+
     const renderListBL = () => {
-        return mangBL.map((item, index) => {
+        return mangBLSearch.map((item, index) => {
             return <tr style={{cursor:"pointer"}} key={index} onClick={() => {selectBL(item.maBL)}}>
                 <td>{item.maBL}</td>
                 <td>{item.soTienThanhToan}</td>
@@ -177,6 +183,14 @@ export default function ManageBL() {
         resetFunc();
     }
 
+    const handleSearch = (event) => {
+        let {value} = event.target;
+        if(value == "") setMangBLSearch(mangBL);
+        else setMangBLSearch(mangBL.filter(bienLai => {
+            return bienLai.thoiGianLap.includes(value);
+        }));
+    }
+
     return (
         <div id="content">
             <nav className="navbar navbar-default">
@@ -207,7 +221,7 @@ export default function ManageBL() {
                         <div className="row mb-3">
                             <div className="col">
                                 <div className="input-group">
-                                    <input type="text" className="form-control" placeholder="Tên dân cư" id="searchName" />
+                                    <input onKeyUp={handleSearch} type="text" className="form-control" placeholder="Thời gian lập" id="searchName" />
                                     <div className="input-group-prepend">
                                         <span className="input-group-text" id="btnTimNV"><i className="fa fa-search" /></span>
                                     </div>

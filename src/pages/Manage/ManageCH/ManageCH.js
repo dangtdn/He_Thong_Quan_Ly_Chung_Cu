@@ -23,6 +23,8 @@ function ManageCH(props) {
             tinhTrangCH: "",
         }
     })
+
+    let [mangCHSearch, setMangCHSearch] = useState([]);
     
     let arrInput = document.querySelectorAll('form input, form select');
 
@@ -30,8 +32,12 @@ function ManageCH(props) {
     // console.log(mangCH);
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        setMangCHSearch(mangCH)
+    }, []);
+
     const renderListCH = () => {
-        return mangCH.map((item,index) => {
+        return mangCHSearch.map((item,index) => {
             return <tr key={index}>
                 <td>{item.maCH}</td>
                 <td>{item.tenCH}</td>
@@ -142,10 +148,10 @@ function ManageCH(props) {
 
     const handleSearch = (event) => {
         let {value} = event.target;
-        let mangCHSearch = mangCH.filter(canHo => {
+        if(value == "") setMangCHSearch(mangCH);
+        else setMangCHSearch(mangCH.filter(canHo => {
             return canHo.tenCH.includes(value);
-        });
-        console.log(mangCHSearch)
+        }));
     }
 
     return (
@@ -172,7 +178,7 @@ function ManageCH(props) {
                         <div className="row mb-3">
                             <div className="col">
                                 <div className="input-group">
-                                    <input onChange={handleSearch} type="text" className="form-control" placeholder="Tên căn hộ" id="searchName" />
+                                    <input onKeyUp={handleSearch} type="text" className="form-control" placeholder="Tên căn hộ" id="searchName" />
                                     <div className="input-group-prepend">
                                         <span className="input-group-text" id="btnTimNV"><i className="fa fa-search" /></span>
                                     </div>
