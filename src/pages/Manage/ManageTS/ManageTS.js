@@ -12,7 +12,8 @@ export default function ManageTS() {
             tenTS: "",
             giaTS: "",
             tinhTrangTS: "",
-        }
+        },
+        mangTS: []
     })
     let [dataEdit, setDataEdit] = useState({
         values: {
@@ -34,7 +35,7 @@ export default function ManageTS() {
 
     useEffect(() => {
         setMangTSSearch(mangTS)
-    }, []);
+    }, [data]);
 
     const renderListTS = () => {
         return mangTSSearch.map((item,index) => {
@@ -114,14 +115,18 @@ export default function ManageTS() {
     }
 
     const handleUpdateTS = () => {
-        let index = mangTS.findIndex((item) => item.maTS === dataEdit.values.maTS);
-        let editTS = {...mangTS[index]};
-        console.log(editTS);
+        let taiSan = mangTS.find((item) => item.maTS === dataEdit.values.maTS);
+        let editTS = {...taiSan};
+        
         arrInput.forEach(input => {
             const {id,value} = input;
             editTS = {...editTS,[id]:value};
         })
         dispatch(editTSAction(editTS));
+
+        setData({
+            mangTS: mangTS
+        })
     }
 
     // Hàm reset
@@ -138,13 +143,20 @@ export default function ManageTS() {
 
     const deleteTS = (maTS) => {
         dispatch(deleteTSAction(maTS));
+
+        setData({
+            mangTS: mangTS
+        })
     }
       
     const handleAddTS = () => {
         const taiSan = data.values;
         dispatch(addTSAction(taiSan));
-
         resetFunc();
+
+        setData({
+            mangTS: mangTS
+        })
     }
 
     const handleSearch = (event) => {

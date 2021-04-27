@@ -13,7 +13,8 @@ function ManageCH(props) {
             tenCH: "",
             giaCH: "",
             tinhTrangCH: "",
-        }
+        },
+        mangCH: []
     })
     let [dataEdit, setDataEdit] = useState({
         values: {
@@ -29,12 +30,12 @@ function ManageCH(props) {
     let arrInput = document.querySelectorAll('form input, form select');
 
     const {mangCH} = useSelector(state => state.ListReducer)
-    // console.log(mangCH);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
         setMangCHSearch(mangCH)
-    }, []);
+    }, [data]);
 
     const renderListCH = () => {
         return mangCHSearch.map((item,index) => {
@@ -114,14 +115,19 @@ function ManageCH(props) {
     }
 
     const handleUpdateCH = () => {
-        let index = mangCH.findIndex((item) => item.maCH === dataEdit.values.maCH);
-        let editCH = {...mangCH[index]};
-        console.log(editCH);
+        let canHo = mangCH.find((item) => item.maCH === dataEdit.values.maCH);
+        let editCH = {...canHo};
+        
         arrInput.forEach(input => {
             const {id,value} = input;
             editCH = {...editCH,[id]:value};
         })
+
         dispatch(editCHAction(editCH));
+        
+        setData({
+            mangCH: mangCH
+        });
     }
 
     // Hàm reset
@@ -138,12 +144,20 @@ function ManageCH(props) {
 
     const deleteCH = (maCH) => {
         dispatch(deleteCHAction(maCH));
+        
+        setData({
+            mangCH: mangCH
+        });
     }
       
     const handleAddCH = () => {
         const canHo = {...data.values};
         dispatch(addCHAction(canHo));
         resetFunc();
+        
+        setData({
+            mangCH: mangCH
+        });
     }
 
     const handleSearch = (event) => {

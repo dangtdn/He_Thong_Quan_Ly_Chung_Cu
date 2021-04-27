@@ -115,12 +115,12 @@ export const ListReducer = (state = stateDefault,action) => {
             const mangDV_Update = [...state.mangDV];
 
             let index = mangDV_Update.findIndex(item => item.maDV === action.dichVu.maDV);
-            console.log(mangDV_Update[index])
-            // if(index !== -1) {
-            //     console.log('Mã dịch vụ đã tồn tại');
-            // }else {
-            //     mangDV_Update.push(action.dichVu);
-            // }
+            
+            if(index !== -1) {
+                alert('Mã dịch vụ đã tồn tại');
+            }else {
+                mangDV_Update.push(action.dichVu);
+            }
             return {...state,mangDV:mangDV_Update};
         }
         case "XOA_DICH_VU": {

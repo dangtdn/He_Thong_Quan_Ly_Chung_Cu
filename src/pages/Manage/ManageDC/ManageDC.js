@@ -17,7 +17,8 @@ export default function ManageDC() {
             sdt: "",
             ngayChuyenVao: "",
             maCH: "",
-        }
+        },
+        mangDC: []
     })
     let [dataEdit, setDataEdit] = useState({
         values: {
@@ -44,7 +45,7 @@ export default function ManageDC() {
 
     useEffect(() => {
         setMangDCSearch(mangDC)
-    }, []);
+    }, [data]);
 
     const renderListDC = () => {
         return mangDCSearch.map((item,index) => {
@@ -130,14 +131,18 @@ export default function ManageDC() {
     }
 
     const handleUpdateDC = () => {
-        let index = mangDC.findIndex((item) => item.maDC === dataEdit.values.maDC);
-        let editDC = {...mangDC[index]};
-        console.log(editDC);
+        let danCu = mangDC.find((item) => item.maDC === dataEdit.values.maDC);
+        let editDC = {...danCu};
+        
         arrInput.forEach(input => {
             const {id,value} = input;
             editDC = {...editDC,[id]:value};
         })
         dispatch(editDCAction(editDC));
+
+        setData({
+            mangDC: mangDC
+        });
     }
 
     // Hàm reset
@@ -154,13 +159,20 @@ export default function ManageDC() {
 
     const deleteDC = (maDC) => {
         dispatch(deleteDCAction(maDC));
+
+        setData({
+            mangDC: mangDC
+        });
     }
       
     const handleAddDC = () => {
         const danCu = data.values;
         dispatch(addDCAction(danCu));
-
         resetFunc();
+
+        setData({
+            mangDC: mangDC
+        });
     }
 
     const handleSearch = (event) => {

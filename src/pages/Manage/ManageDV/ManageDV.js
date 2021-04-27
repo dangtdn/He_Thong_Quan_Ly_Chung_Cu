@@ -11,7 +11,8 @@ export default function ManageDV() {
             maDV: "",
             tenDV: "",
             giaDV: ""
-        }
+        },
+        mangDV: []
     })
     let [dataEdit, setDataEdit] = useState({
         values: {
@@ -31,7 +32,7 @@ export default function ManageDV() {
     
     useEffect(() => {
         setMangDVSearch(mangDV)
-    }, []);
+    }, [data]);
 
     const renderListDV = () => {
         return mangDVSearch.map((item,index) => {
@@ -110,14 +111,18 @@ export default function ManageDV() {
     }
 
     const handleUpdateDV = () => {
-        let index = mangDV.findIndex((item) => item.maDV === dataEdit.values.maDV);
-        let editDV = {...mangDV[index]};
-        console.log(editDV);
+        let dichVu = mangDV.find((item) => item.maDV === dataEdit.values.maDV);
+        let editDV = {...dichVu};
+        
         arrInput.forEach(input => {
             const {id,value} = input;
             editDV = {...editDV,[id]:value};
         })
         dispatch(editDVAction(editDV));
+
+        setData({
+            mangDV: mangDV
+        });
     }
 
     // Hàm reset
@@ -134,13 +139,20 @@ export default function ManageDV() {
 
     const deleteDV = (maDV) => {
         dispatch(deleteDVAction(maDV));
+
+        setData({
+            mangDV: mangDV
+        });
     }
       
     const handleAddDV = () => {
         const dichVu = data.values;
         dispatch(addDVAction(dichVu));
-
         resetFunc();
+
+        setData({
+            mangDV: mangDV
+        });
     }
 
     const handleSearch = (event) => {

@@ -16,7 +16,8 @@ export default function ManageBL() {
             thoiGianLap: "",
             tinhTrangBL: "",
             nguoiLap: "",
-        }
+        },
+        mangBL: []
     })
     let [dataEdit, setDataEdit] = useState({
         values: {
@@ -51,7 +52,7 @@ export default function ManageBL() {
 
     useEffect(() => {
         setMangBLSearch(mangBL)
-    }, []);
+    }, [data]);
 
     const renderListBL = () => {
         return mangBLSearch.map((item, index) => {
@@ -151,14 +152,18 @@ export default function ManageBL() {
     }
 
     const handleUpdateBL = () => {
-        let index = mangBL.findIndex((item) => item.maBL === dataEdit.values.maBL);
-        let editBL = { ...mangBL[index] };
-        console.log(editBL);
+        let bienLai= mangBL.find((item) => item.maBL === dataEdit.values.maBL);
+        let editBL = { ...bienLai};
+       
         arrInput.forEach(input => {
             const { id, value } = input;
             editBL = { ...editBL, [id]: value };
         })
         dispatch(editBLAction(editBL));
+
+        setData({
+            mangBL: mangBL
+        });
     }
 
     // Hàm reset
@@ -175,12 +180,20 @@ export default function ManageBL() {
 
     const deleteBL = (maBL) => {
         dispatch(deleteBLAction(maBL));
+
+        setData({
+            mangBL: mangBL
+        });
     }
 
     const handleAddBL = () => {
         const bienLai = data.values;
         dispatch(addBLAction(bienLai));
         resetFunc();
+
+        setData({
+            mangBL: mangBL
+        });
     }
 
     const handleSearch = (event) => {
@@ -189,6 +202,11 @@ export default function ManageBL() {
         else setMangBLSearch(mangBL.filter(bienLai => {
             return bienLai.thoiGianLap.includes(value);
         }));
+    }
+
+    const PrintForm = () => {
+        if(window.confirm("Bạn có muốn in biên lai không?"))
+            alert("In biên lai thanh toán thành công");
     }
 
     return (
@@ -380,7 +398,7 @@ export default function ManageBL() {
                         </div>
                         {/* Modal footer */}
                         <div className="modal-footer" id="modal-footer">
-                            <button id="btnCapNhat" type="button" className="btn btn-success" onClick={handleUpdateBL}>In biên lai</button>
+                            <button id="btnIn" type="button" className="btn btn-success" onClick={PrintForm}>In biên lai</button>
                             <button id="btnDong" type="button" className="btn btn-danger" data-dismiss="modal">Đóng</button>
                         </div>
                     </div>
